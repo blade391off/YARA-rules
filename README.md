@@ -3,7 +3,7 @@
 
 Планую писати сюди багато YARA коду, дякую що читаєте це і можливо підтримуєте мене
 
-Перший мій Yara-code тут, це [Generic_Malware.yar](https://github.com/blade391off/YARA-rules)
+Перший мій Yara-code тут, це [Generic_Malware.yar](https://github.com/blade391off/YARA-rules/blob/main/Generic/Generic_Malware.yar)
 
 ---
 ### About me 
