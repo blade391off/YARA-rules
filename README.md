@@ -14,3 +14,174 @@
 Хочу підвищити кібербезпеку в Україні!
 
 --- 
+
+### LICENSE 
+Проєкт поширюється відповідно до умов CUSTOM COMMERCIAL LICENSE AGREEMENT (CCLA) v1.0.
+<details>
+<summary><b>Натисніть, щоб розгорнути текст ліцензії</b></summary>
+
+
+CUSTOM COMMERCIAL LICENSE AGREEMENT (CCLA) v1.0
+
+Copyright © 2026 Timofey (blade391off). All Rights Reserved.
+
+This License governs the use, modification, distribution and commercial exploitation of the YARA Rules and related files (the "Rules").
+
+By downloading, copying, modifying, or using the Rules, you agree to be bound by this License.
+
+### 1. DEFINITIONS
+
+For the purposes of this License:
+
+"Rules" means all YARA rules, signatures, metadata, documentation, and related files distributed with this project.
+
+"Author" means Timofey (blade391off).
+
+"Commercial Use" means any use primarily intended for commercial advantage or monetary compensation, including but not limited to:
+
+- Internal corporate security;
+- Managed Security Service Providers (MSSP);
+- Security Operations Centers (SOC);
+- Commercial malware analysis;
+- Commercial file scanning;
+- Paid software or SaaS products;
+- Integration into commercial antivirus or security products;
+- Commercial consulting;
+- Business operations of any organization.
+
+
+### 2. NON-COMMERCIAL LICENSE
+
+
+Subject to the terms of this License, the Author grants every individual a worldwide, non-exclusive, non-transferable, revocable license to:
+
+- Use the Rules;
+- Study the Rules;
+- Modify the Rules;
+- Test the Rules;
+- Create derivative works for personal use;
+- Use the Rules for:
+
+  * Personal projects
+  * Education
+  * Academic research
+  * Malware analysis
+  * Reverse engineering research
+  * Non-profit activities
+
+No payment is required for such use.
+
+
+### 3. COMMERCIAL LICENSE
+
+
+Any Commercial Use requires a separate Commercial License issued by the Author.
+
+Commercial use without a valid Commercial License is strictly prohibited.
+
+Commercial licensing is provided on a month-to-month subscription basis.
+
+The monthly license fee is NOT fixed and shall be determined individually through written agreement between the Author and the Licensee.
+
+(Custom Pricing / Pricing on Request)
+
+
+### 4. COMMERCIAL RIGHTS
+
+
+A valid Commercial License grants the Licensee the right to:
+
+- Use the Rules commercially;
+- Modify the Rules for internal business purposes;
+- Integrate the Rules into internal security infrastructure;
+- Receive updates during an active subscription.
+
+Unless expressly agreed in writing, Commercial Licensees may NOT:
+
+- Redistribute the Rules;
+- Resell the Rules;
+- Publish the Rules;
+- Sublicense the Rules;
+- Distribute modified versions as a competing product;
+- Sell the Rules separately.
+
+
+### 5. REDISTRIBUTION
+
+
+Individuals using the Rules under the Non-Commercial License may redistribute UNMODIFIED copies provided that:
+
+- This License remains included;
+- Copyright notices remain intact;
+- No fee is charged.
+
+Redistribution of modified versions requires prior written permission from the Author.
+
+
+### 6. OWNERSHIP
+
+
+The Rules remain the exclusive intellectual property of the Author.
+
+This License grants permission to use the Rules only.
+
+No ownership rights are transferred.
+
+
+### 7. TERMINATION
+
+
+Any violation of this License immediately terminates all rights granted under it.
+
+Upon termination, the Licensee must immediately cease using and distributing the Rules.
+
+Termination does not affect any legal remedies available to the Author.
+
+
+### 8. UPDATES AND SUPPORT
+
+
+Commercial subscribers receive, while their subscription remains active:
+
+- Rule updates;
+- Bug fixes;
+- Maintenance releases;
+- Standard technical support via email.
+
+The Author is under no obligation to provide updates indefinitely.
+
+
+### 9. NO WARRANTY
+
+
+THE RULES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NON-INFRINGEMENT.
+
+THE ENTIRE RISK ARISING OUT OF THE USE OF THE RULES REMAINS WITH THE LICENSEE.
+
+
+### 10. LIMITATION OF LIABILITY
+
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, SECURITY INCIDENTS, OR OTHER DAMAGES ARISING FROM THE USE OF OR INABILITY TO USE THE RULES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+
+### 11. GOVERNING LAW
+
+
+This License shall be governed by and interpreted in accordance with the laws of Ukraine.
+
+Any disputes arising from this License shall be subject to the exclusive jurisdiction of the competent courts of Ukraine.
+
+
+### 12. CONTACT
+
+
+Commercial licensing, pricing requests, and business inquiries:
+
+Email: bladeyep@gmail.com
+
+---
+
+END OF LICENSE
+
+</details>
