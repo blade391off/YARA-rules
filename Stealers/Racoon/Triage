@@ -4,7 +4,7 @@ rule Win_Malware_Raccoon_Triage {
     meta:
         description = "Fast triage rule for Raccoon Stealer requiring core artifact presence"
         author = "blade391off"
-        version = "4.1"
+        version = "1.0"
 
     strings:
         $core_snippets = "libsnippets" ascii wide
