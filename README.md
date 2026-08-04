@@ -20,6 +20,7 @@
 <details>
 <summary><b>Натисніть, щоб розгорнути текст ліцензії</b></summary>
 
+---
 
 CUSTOM COMMERCIAL LICENSE AGREEMENT (CCLA) v1.0
 
