@@ -5,7 +5,7 @@
 
 Планую писати сюди багато YARA коду, дякую що читаєте це і можливо підтримуєте мене
 
-Перший YARA правило це [Generic_Malware.yar](https://github.com/blade391off/YARA-rules/blob/main/Generic/Generic_Malware.yar)
+Перший YARA-rule це [Generic_Malware.yar](https://github.com/blade391off/YARA-rules/blob/main/Generic/Generic_Malware.yar)
 
 ---
 ### About me 
