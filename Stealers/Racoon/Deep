@@ -4,7 +4,7 @@ rule Win_Malware_Raccoon_Deep_Refined {
     meta:
         description = "Deep classification rule for Raccoon Stealer"
         author = "blade391off"
-        version = "6.1"
+        version = "1.0"
 
     strings:
         $core_snippets = "libsnippets" ascii wide
