@@ -1,3 +1,5 @@
+<img width="1000" height="600" alt="Cherry Blossom Pink GIF" src="https://github.com/user-attachments/assets/a9028254-fbc2-450c-b4a3-453a9633de91" />
+
 ### 🦠 YARA RULES 
 Цей репозиторій створений для YARA-RULES і для підвищення кібербезпеки
 
