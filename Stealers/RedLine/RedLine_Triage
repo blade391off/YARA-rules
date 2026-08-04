@@ -3,7 +3,7 @@ import "pe"
 rule RedLine_Triage {
     meta:
         rule_id = "REDLINE-0001"
-        version = "1.1"
+        version = "1.0"
         confidence = "Medium"
         reference = "Internal Research"
         tlp = "WHITE"
