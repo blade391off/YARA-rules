@@ -4,7 +4,7 @@ rule Win_Malware_Raccoon_Production {
     meta:
         description = "High-fidelity production rule for Raccoon Stealer"
         author = "blade391off"
-        version = "5.2"
+        version = "1.0"
 
     strings:
         $core_snippets = "libsnippets" ascii wide
