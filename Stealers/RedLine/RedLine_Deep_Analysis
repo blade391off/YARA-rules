@@ -3,7 +3,7 @@ import "pe"
 rule RedLine_Deep_Analysis {
     meta:
         rule_id = "REDLINE-0002"
-        version = "1.4"
+        version = "1.0"
         confidence = "High"
         reference = "Internal Research"
         tlp = "WHITE"
