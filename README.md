@@ -32,7 +32,7 @@
 
 CUSTOM COMMERCIAL LICENSE AGREEMENT (CCLA) v1.0
 
-Copyright © 2026 Timofey (blade391off). All Rights Reserved.
+Copyright © 2026 Timofey (blade391off) represented by his parents / legal guardians. All Rights Reserved
 
 This License governs the use, modification, distribution and commercial exploitation of the YARA Rules and related files (the "Rules").
 
