@@ -7,7 +7,7 @@ rule WinLocker_WinLockLoader
         author = "blade391off"
         date = "2026-08-18"
         version = "1.0"
-        description = "High confidence detection for WinLockLoader WinLock.exe"
+        description = "Detect WinLockLoader"
         family = "WinLocker"
         category = "Loader / ScreenLocker"
         threat_level = "critical"
