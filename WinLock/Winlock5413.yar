@@ -6,7 +6,7 @@ rule WinLocker_WinLockLoader
     meta:
         author = "blade391off"
         date = "2026-08-18"
-        version = "1.0"
+        version = "1.1"
         description = "Detect WinLockLoader"
         family = "WinLocker"
         category = "Loader / ScreenLocker"
@@ -37,7 +37,6 @@ rule WinLocker_WinLockLoader
         $locker_3 = "Ooops!" ascii wide nocase
         $locker_4 = "Your files are encrypted" ascii wide nocase
         $locker_5 = "Telegram" ascii wide nocase
-        $locker_6 = "@Ivan_Abrikos" ascii wide nocase
         $locker_7 = "YOU ARE HACKED!" ascii wide nocase
         $locker_8 = "HAHAHAHAHAHAHA" ascii wide nocase
         $locker_9 = "BIBORAN.com" ascii wide nocase
@@ -78,37 +77,11 @@ rule WinLocker_WinLockLoader
                 )
                 and
                 (
-                    (
-                        3 of ($name_*)
-                        and 2 of ($autorun_*)
-                    )
-                    or
-                    (
-                        2 of ($reg_*)
-                        and 2 of ($autorun_*)
-                        and 1 of ($name_*)
-                    )
-                    or
-                    (
-                        2 of ($locker_*)
-                        and $cmd
-                        and $attrib
-                        and 2 of ($attr_*)
-                    )
-                    or
-                    (
-                        $reg_winlogon
-                        and $reg_shell
-                        and $reg_runonce
-                        and $cmd
-                    )
-                    or
-                    (
-                        $locker_1
-                        and $locker_6
-                        and $attrib
-                        and $taskkill
-                    )
+                    (3 of ($name_*) and 2 of ($autorun_*))
+                    or (2 of ($reg_*) and 2 of ($autorun_*) and 1 of ($name_*))
+                    or (2 of ($locker_*) and $cmd and $attrib and 2 of ($attr_*))
+                    or ($reg_winlogon and $reg_shell and $reg_runonce and $cmd)
+                    or ($locker_1 and $attrib and $taskkill)
                 )
             )
         )
