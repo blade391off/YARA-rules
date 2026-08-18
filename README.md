@@ -24,7 +24,7 @@
 ---
 
 ### LICENSE 
-Проєкт поширюється відповідно до умов CUSTOM COMMERCIAL LICENSE AGREEMENT (CCLA) v1.0.
+Проєкт поширюється відповідно до умов MIT LICENSE
 <details>
 <summary><b>Натисніть, щоб розгорнути текст ліцензії</b></summary>
 
