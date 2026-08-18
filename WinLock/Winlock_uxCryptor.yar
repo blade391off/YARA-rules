@@ -7,7 +7,7 @@ rule WinLocker_Winlock_uxCryptor
         author = "blade391off"
         date = "2026-08-18"
         version = "1.0"
-        description = "High-confidence detection for Winlock / ux-cryptor related samples"
+        description = "Detect UxCryptor"
         family = "WinLocker"
         category = "Ransomware / ScreenLocker"
         threat_level = "critical"
