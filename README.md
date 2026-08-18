@@ -58,3 +58,7 @@ SOFTWARE.
 
 
 </details>
+
+---
+# lol
+кидаю проєкт
