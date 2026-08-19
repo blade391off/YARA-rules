@@ -4,7 +4,7 @@ rule Target_Family_PUP_HighConfidence_PE
 {
     meta:
         author = "blade391off"
-        description = "High-confidence static PE detection for potentially unwanted software associated with scheduled task persistence, unauthorized application acquisition and advertising"
+        description = "PUP detect"
         date = "2026-08-17"
         threat_level = "medium"
         detection_type = "static_pe"
