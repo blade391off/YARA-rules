@@ -64,7 +64,7 @@ rule WinLocker_WinLockLoader
         and filesize <= 5MB
         and
         (
-            hash.sha256(0, filesize) == "86453C1A381C4F48999307B1A4890C22322971004D5714729DF80533684A03D2"
+            hash.sha256(0, filesize) == "86453c1a381c4f48999307b1a4890c22322971004d5714729df80533684a03d2"
             or
             (
                 pe.is_pe
@@ -72,6 +72,7 @@ rule WinLocker_WinLockLoader
                 and
                 (
                     $dotnet
+                    or $mono
                     or pe.imports("mscoree.dll", "_CorExeMain")
                     or pe.imports("mscoree.dll", "_CorExeMainCRTStartup")
                 )
