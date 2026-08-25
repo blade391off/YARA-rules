@@ -26,8 +26,7 @@ jobs:
 
       - name: Check YARA rules
         run: |
-          find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 |
-          while IFS= read -r -d '' rule; do
+          find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 | while IFS= read -r -d '' rule; do
             echo "Checking: $rule"
-            yara "$rule" /dev/null
+            yarac "$rule" /dev/null
           done
