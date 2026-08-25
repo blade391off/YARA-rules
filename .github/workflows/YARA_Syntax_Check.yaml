@@ -5,7 +5,7 @@ on:
     paths:
       - '**.yar'
       - '**.yara'
-      - '.github/workflows/YARA Syntax Check.yaml'
+      - '.github/workflows/YARA_Syntax_Check.yaml'
   pull_request:
     paths:
       - '**.yar'
@@ -29,5 +29,5 @@ jobs:
           find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 |
           while IFS= read -r -d '' rule; do
             echo "Checking: $rule"
-            yara -C "$rule"
+            yara "$rule" /dev/null
           done
