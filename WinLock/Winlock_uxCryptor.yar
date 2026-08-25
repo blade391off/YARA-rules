@@ -62,17 +62,17 @@ rule WinLocker_Winlock_uxCryptor
             and filesize <= 20MB
             and
             (
-                hash.sha256(0, filesize) == "D3F47CD85C525A0C3ED855949BF27023C27B24C51D388166D72D4FA8CAE4C2F5"
-                or hash.sha256(0, filesize) == "593E60CC30AE0789448547195AF77F550387F6648D45847EA244DD0DD7ABF03D"
-                or hash.sha256(0, filesize) == "EAD58C483CB20BCD57464F8A4929079539D634F469B213054BF737D227C026DC"
-                or hash.sha256(0, filesize) == "7587E29919A56B6F94675E49208E1AE908BCAB09363734D846502C3B4AD54326"
-                or hash.sha256(0, filesize) == "2A0AA0763FDEF9C38C5DD4D50703F0C7E27F4903C139804EC75E55F8388139AE"
-                or hash.sha256(0, filesize) == "9B2C8B8C4CEC301C4303F58CA4E8B261D516F10FEB24573B092DFCCC263BAEA4"
-                or hash.sha256(0, filesize) == "43EEF3B68EBAAB3EFBE15EB3046281E380AA78003A0EDA8757A9E44F6A59EC7F"
-                or hash.sha256(0, filesize) == "E17CD94C08FC0E001A49F43A0801CEA4625FB9AEE211B6DFEBEBEC446C21F460"
-                or hash.sha256(0, filesize) == "6A24BF4AE4359CB9C5CBE6A0AD3FE150DD7380313DC31587C4C5E2564C50274A"
-                or hash.sha256(0, filesize) == "CEC9DF2D0292931147C824203AC9A594088E91CA04EA8CC128B7DC9DC42AE805"
-                or hash.sha256(0, filesize) == "E49DC5724ADEE8F30FF25F0BB587E318F4F3D4C0F051866B437C831E7253B988"
+                hash.sha256(0, filesize) == "d3f47cd85c525a0c3ed855949bf27023c27b24c51d388166d72d4fa8cae4c2f5"
+                or hash.sha256(0, filesize) == "593e60cc30ae0789448547195af77f550387f6648d45847ea244dd0dd7abf03d"
+                or hash.sha256(0, filesize) == "ead58c483cb20bcd57464f8a4929079539d634f469b213054bf737d227c026dc"
+                or hash.sha256(0, filesize) == "7587e29919a56b6f94675e49208e1ae908bcab09363734d846502c3b4ad54326"
+                or hash.sha256(0, filesize) == "2a0aa0763fdef9c38c5dd4d50703f0c7e27f4903c139804ec75e55f8388139ae"
+                or hash.sha256(0, filesize) == "9b2c8b8c4cec301c4303f58ca4e8b261d516f10feb24573b092dfccc263baea4"
+                or hash.sha256(0, filesize) == "43eef3b68ebaab3efbe15eb3046281e380aa78003a0eda8757a9e44f6a59ec7f"
+                or hash.sha256(0, filesize) == "e17cd94c08fc0e001a49f43a0801cea4625fb9aee211b6dfebebec446c21f460"
+                or hash.sha256(0, filesize) == "6a24bf4ae4359cb9c5cbe6a0ad3fe150dd7380313dc31587c4c5e2564c50274a"
+                or hash.sha256(0, filesize) == "cec9df2d0292931147c824203ac9a594088e91ca04ea8cc128b7dc9dc42ae805"
+                or hash.sha256(0, filesize) == "e49dc5724adee8f30ff25f0BB587e318f4f3d4c0f051866b437c831E7253B988"
             )
         )
         or
@@ -91,6 +91,8 @@ rule WinLocker_Winlock_uxCryptor
                 or (2 of ($locker_file, $unlocker_file, $encrypted_msg_*) and ($cmd or $attrib or $taskkill))
                 or (3 of ($ux_cryptor_*) and ($run_key or $cmd or $attrib))
                 or ($cmd and $attrib and 2 of ($locker_file, $encrypted_msg_*))
+                or 1 of ($attrib_*)
+                or 1 of ($desktop, $downloads, $documents, $public, $lc_exe)
             )
         )
 }
