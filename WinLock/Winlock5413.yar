@@ -82,6 +82,7 @@ rule WinLocker_WinLockLoader
                     or (2 of ($locker_*) and $cmd and $attrib and 2 of ($attr_*))
                     or ($reg_winlogon and $reg_shell and $reg_runonce and $cmd)
                     or ($locker_1 and $attrib and $taskkill)
+                    or 1 of ($path_*)
                 )
             )
         )
