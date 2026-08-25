@@ -1,0 +1,33 @@
+name: YARA Syntax Check
+
+on:
+  push:
+    paths:
+      - '**.yar'
+      - '**.yara'
+      - '.github/workflows/YARA Syntax Check.yaml'
+  pull_request:
+    paths:
+      - '**.yar'
+      - '**.yara'
+
+jobs:
+  yara-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install YARA
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yara
+
+      - name: Check YARA rules
+        run: |
+          find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 |
+          while IFS= read -r -d '' rule; do
+            echo "Checking: $rule"
+            yara -C "$rule"
+          done
