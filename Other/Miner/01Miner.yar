@@ -1,7 +1,7 @@
 import "hash"
 import "pe"
 
-rule Miner_Lol
+rule Miner
 {
     meta:
         description = "Detects the miner sample and its distinctive PE and malware artifacts"
@@ -17,19 +17,15 @@ rule Miner_Lol
         $service_dll = "RemoteSSDPClient.dll" ascii wide nocase
         $rdpckm = "rdpckm.dat" ascii wide nocase
         $netsvcs = "AeLookupSvc" ascii wide nocase
-
         $network_ip = "185.128.24.101" ascii wide
         $install = "install.php" ascii wide nocase
-
         $task_upnp = "\\Microsoft\\Windows\\UPnP\\" ascii wide nocase
         $task_tcpip = "\\Microsoft\\Windows\\Tcpip\\" ascii wide nocase
         $task_time = "\\Microsoft\\Windows\\Time Synchronization\\" ascii wide nocase
-
         $proxy_enable = "ProxyEnable" ascii wide nocase
         $zone_map = "ZoneMap" ascii wide nocase
         $unc_intranet = "UNCAsIntranet" ascii wide nocase
         $auto_detect = "AutoDetect" ascii wide nocase
-
         $self_delete = "cmd.exe" ascii wide nocase
         $netstat = "NETSTAT.EXE" ascii wide nocase
         $ping = "PING.EXE" ascii wide nocase
@@ -47,15 +43,12 @@ rule Miner_Lol
             and pe.entry_point == 0x65f7
             and
             (
-                3 of ($service*)
-                or
-                ($network_ip and $install)
-                or
-                (2 of ($task_*))
-                or
-                (2 of ($proxy_*))
-                or
-                (2 of ($self_delete, $netstat, $ping, $schtasks))
+                2 of ($service*)
+                or ($network_ip and $install)
+                or (2 of ($task_*))
+                or (2 of ($proxy_*))
+                or (2 of ($self_delete, $netstat, $ping, $schtasks))
+                or $rdpckm
             )
         )
 }
