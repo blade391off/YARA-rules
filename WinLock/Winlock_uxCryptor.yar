@@ -59,7 +59,7 @@ rule WinLocker_Winlock_uxCryptor
     condition:
         (
             uint16(0) == 0x5A4D
-            and filesize <= 20MB
+            and filesize <= 20 MB
             and
             (
                 hash.sha256(0, filesize) == "d3f47cd85c525a0c3ed855949bf27023c27b24c51d388166d72d4fa8cae4c2f5"
@@ -72,14 +72,14 @@ rule WinLocker_Winlock_uxCryptor
                 or hash.sha256(0, filesize) == "e17cd94c08fc0e001a49f43a0801cea4625fb9aee211b6dfebebec446c21f460"
                 or hash.sha256(0, filesize) == "6a24bf4ae4359cb9c5cbe6a0ad3fe150dd7380313dc31587c4c5e2564c50274a"
                 or hash.sha256(0, filesize) == "cec9df2d0292931147c824203ac9a594088e91ca04ea8cc128b7dc9dc42ae805"
-                or hash.sha256(0, filesize) == "e49dc5724adee8f30ff25f0BB587e318f4f3d4c0f051866b437c831E7253B988"
+                or hash.sha256(0, filesize) == "e49dc5724adee8f30ff25f0bb587e318f4f3d4c0f051866b437c831e7253b988"
             )
         )
         or
         (
             uint16(0) == 0x5A4D
             and pe.is_pe
-            and filesize <= 20MB
+            and filesize <= 20 MB
             and
             (
                 $mscoree
