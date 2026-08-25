@@ -13,12 +13,6 @@ rule gcleaner
         references = "ANY.RUN"
 
     strings:
-        $gcleaner_hash_1 = "e04a299110a591edac010a57b9df1457433864e9642b6126951614d1af20cb59"
-        $gcleaner_hash_2 = "0829c26f3453be9269c2e48dd3393d7f5e1dc843e4ce309da7704b5e6ac3aa21"
-        $gcleaner_hash_3 = "e647a6c94251db1a474dd9b4ed8dbe52c3e53f34f827bc56ae745cb7711b3d74"
-        $gcleaner_hash_4 = "8b0570c9ee5a7d5d1eeb5bd226d9faf598b152a83c044975cb2de076453d425f"
-        $gcleaner_hash_5 = "fd0941cee9b3f2e0c9e3ce51def41ae9370c1a1ffc92756d5cb48ce99f190a78"
-
         $gc_name = "GCLEANER" ascii nocase
         $gc_process = "svchost015.exe" ascii wide nocase
 
@@ -97,11 +91,11 @@ rule gcleaner
         pe.is_pe and
         filesize < 15MB and
         (
-            hash.sha256(0, filesize) == $gcleaner_hash_1 or
-            hash.sha256(0, filesize) == $gcleaner_hash_2 or
-            hash.sha256(0, filesize) == $gcleaner_hash_3 or
-            hash.sha256(0, filesize) == $gcleaner_hash_4 or
-            hash.sha256(0, filesize) == $gcleaner_hash_5 or
+            hash.sha256(0, filesize) == "e04a299110a591edac010a57b9df1457433864e9642b6126951614d1af20cb59" or
+            hash.sha256(0, filesize) == "0829c26f3453be9269c2e48dd3393d7f5e1dc843e4ce309da7704b5e6ac3aa21" or
+            hash.sha256(0, filesize) == "e647a6c94251db1a474dd9b4ed8dbe52c3e53f34f827bc56ae745cb7711b3d74" or
+            hash.sha256(0, filesize) == "8b0570c9ee5a7d5d1eeb5bd226d9faf598b152a83c044975cb2de076453d425f" or
+            hash.sha256(0, filesize) == "fd0941cee9b3f2e0c9e3ce51def41ae9370c1a1ffc92756d5cb48ce99f190a78" or
 
             (
                 $gc_process and
