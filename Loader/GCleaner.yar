@@ -97,11 +97,11 @@ rule gcleaner
         pe.is_pe and
         filesize < 15MB and
         (
-            hash.SHA256(0, filesize) == $gcleaner_hash_1 or
-            hash.SHA256(0, filesize) == $gcleaner_hash_2 or
-            hash.SHA256(0, filesize) == $gcleaner_hash_3 or
-            hash.SHA256(0, filesize) == $gcleaner_hash_4 or
-            hash.SHA256(0, filesize) == $gcleaner_hash_5 or
+            hash.sha256(0, filesize) == $gcleaner_hash_1 or
+            hash.sha256(0, filesize) == $gcleaner_hash_2 or
+            hash.sha256(0, filesize) == $gcleaner_hash_3 or
+            hash.sha256(0, filesize) == $gcleaner_hash_4 or
+            hash.sha256(0, filesize) == $gcleaner_hash_5 or
 
             (
                 $gc_process and
@@ -160,6 +160,8 @@ rule gcleaner
             (
                 $gc_process and
                 2 of ($screenconnect_msi, $screenconnect_service, $connectwise)
-            )
+            ) or
+            
+            1 of ($screenshot, $rdp, $telegram, $amadey_version, $amadey_dropdir, $amadey_dropname, $amadey_cred, $amadey_clip, $amadey_plugins, $amadey_video, $remcos_mutex, $remcos_licence, $remcos_uid, $xmrig)
         )
 }
