@@ -45,10 +45,11 @@ rule Miner
             (
                 2 of ($service*)
                 or ($network_ip and $install)
-                or (2 of ($task_*))
-                or (2 of ($proxy_*))
-                or (2 of ($self_delete, $netstat, $ping, $schtasks))
+                or 2 of ($task_*)
+                or 1 of ($proxy_*)
+                or 2 of ($self_delete, $netstat, $ping, $schtasks)
                 or $rdpckm
+                or $netsvcs
             )
         )
 }
