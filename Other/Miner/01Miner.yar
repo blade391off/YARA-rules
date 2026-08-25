@@ -46,8 +46,8 @@ rule Miner
                 2 of ($service*)
                 or ($network_ip and $install)
                 or 2 of ($task_*)
-                or 2 of ($proxy_*)
-                or 2 of ($self*)
+                or ($proxy_enable or $zone_map or $unc_intranet or $auto_detect)
+                or $self_delete
                 or $rdpckm
                 or $netsvcs
             )
