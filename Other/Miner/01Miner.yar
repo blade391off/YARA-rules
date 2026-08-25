@@ -23,9 +23,9 @@ rule Miner
         $task_tcpip = "\\Microsoft\\Windows\\Tcpip\\" ascii wide nocase
         $task_time = "\\Microsoft\\Windows\\Time Synchronization\\" ascii wide nocase
         $proxy_enable = "ProxyEnable" ascii wide nocase
-        $zone_map = "ZoneMap" ascii wide nocase
-        $unc_intranet = "UNCAsIntranet" ascii wide nocase
-        $auto_detect = "AutoDetect" ascii wide nocase
+        $proxy_zone_map = "ZoneMap" ascii wide nocase
+        $proxy_unc_intranet = "UNCAsIntranet" ascii wide nocase
+        $proxy_auto_detect = "AutoDetect" ascii wide nocase
         $self_delete = "cmd.exe" ascii wide nocase
         $netstat = "NETSTAT.EXE" ascii wide nocase
         $ping = "PING.EXE" ascii wide nocase
@@ -46,7 +46,7 @@ rule Miner
                 2 of ($service*)
                 or ($network_ip and $install)
                 or 2 of ($task_*)
-                or 1 of ($proxy_*)
+                or 2 of ($proxy_*)
                 or 2 of ($self_delete, $netstat, $ping, $schtasks)
                 or $rdpckm
                 or $netsvcs
