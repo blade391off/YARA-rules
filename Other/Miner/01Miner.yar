@@ -50,6 +50,7 @@ rule Miner
                 or $self_delete
                 or $rdpckm
                 or $netsvcs
+                or 1 of ($netstat, $ping, $schtasks)
             )
         )
 }
