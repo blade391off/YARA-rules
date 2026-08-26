@@ -28,5 +28,5 @@ jobs:
         run: |
           find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 | while IFS= read -r -d '' rule; do
             echo "Checking: $rule"
-            yarac "$rule" /dev/null
+            yara -p "$rule"
           done
