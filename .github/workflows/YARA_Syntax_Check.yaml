@@ -1,4 +1,4 @@
-name: YARA Syntax Check
+name: YARA Advanced CI
 
 on:
   push:
@@ -11,22 +11,50 @@ on:
       - '**.yar'
       - '**.yara'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  yara-check:
+  yara-validation:
+    name: Validate Rules Syntax
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Install YARA
+      - name: Cache YARA Packages
+        id: cache-yara
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-yara-apt-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-yara-apt-
+
+      - name: Install YARA Core Engine
         run: |
           sudo apt-get update
           sudo apt-get install -y yara
 
-      - name: Check YARA rules
+      - name: Execute Recursive Syntax Verification
         run: |
-          find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 | while IFS= read -r -d '' rule; do
-            echo "Checking: $rule"
-            yara -p "$rule"
-          done
+          echo "=== STARTING YARA SYNTAX SCAN ==="
+          FAILED=0
+          
+          while IFS= read -r -d '' rule_file; do
+            echo "🔬 Reviewing: $rule_file"
+            
+            if ! yara -p "$rule_file"; then
+              echo "❌ ERROR: Syntax validation failed in $rule_file"
+              FAILED=1
+            fi
+          done < <(find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0)
+          
+          if [ $FAILED -ne 0 ]; then
+            echo "=== VALIDATION FAILED ==="
+            exit 1
+          fi
+          
+          echo "=== ALL RULES ARE VALID AND CLEAN ==="
