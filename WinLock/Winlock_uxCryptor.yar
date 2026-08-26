@@ -30,7 +30,7 @@ rule WinLocker_Winlock_uxCryptor
         $ux_cryptor_13 = "WIN32_8" ascii wide nocase
 
         $locker_file = "info-Locker.txt" ascii wide nocase
-        $unlocker_file = "\$unlocker_id.ux-cryptobytes" ascii wide nocase
+        $unlocker_file = "\\$unlocker_id.ux-cryptobytes" ascii wide nocase
         $encrypted_msg_1 = "Your files are encrypted" ascii wide nocase
         $encrypted_msg_2 = "Ooops!" ascii wide nocase
         $encrypted_msg_3 = "Введите код разблокировки" ascii wide
