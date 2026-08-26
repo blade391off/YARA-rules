@@ -6,7 +6,7 @@ rule WinLocker_Winlock_uxCryptor
     meta:
         author = "blade391off"
         date = "2026-08-18"
-        version = "1.1"
+        version = "1.2"
         description = "Detect UxCryptor"
         family = "WinLocker"
         category = "Ransomware / ScreenLocker"
@@ -91,8 +91,13 @@ rule WinLocker_Winlock_uxCryptor
                 or (2 of ($locker_file, $unlocker_file, $encrypted_msg_*) and ($cmd or $attrib or $taskkill))
                 or (3 of ($ux_cryptor_*) and ($run_key or $cmd or $attrib))
                 or ($cmd and $attrib and 2 of ($locker_file, $encrypted_msg_*))
-                or 1 of ($attrib_*)
-                or 1 of ($desktop, $downloads, $documents, $public, $lc_exe)
+                or (
+                    $attrib_hide or
+                    $attrib_system or
+                    $attrib_readonly or
+                    $attrib_index
+                )
+                or ($desktop or $downloads or $documents or $public or $lc_exe)
             )
         )
 }
