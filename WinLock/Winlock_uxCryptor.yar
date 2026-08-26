@@ -33,8 +33,8 @@ rule WinLocker_Winlock_uxCryptor
         $unlocker_file = "\\$unlocker_id.ux-cryptobytes" ascii wide nocase
         $encrypted_msg_1 = "Your files are encrypted" ascii wide nocase
         $encrypted_msg_2 = "Ooops!" ascii wide nocase
-        $encrypted_msg_3 = "Введите код разблокировки" ascii wide
-        $encrypted_msg_4 = "Ваши файлы зашифрованы" utf8 wide
+        $encrypted_msg_3 = "Введите код разблокировки" wide
+        $encrypted_msg_4 = "Ваши файлы зашифрованы" wide
 
         $run_key = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run" ascii wide nocase
         $run_wininstaller = "WindowsInstaller" ascii wide nocase
@@ -91,12 +91,7 @@ rule WinLocker_Winlock_uxCryptor
                 or (2 of ($locker_file, $unlocker_file, $encrypted_msg_*) and ($cmd or $attrib or $taskkill))
                 or (3 of ($ux_cryptor_*) and ($run_key or $cmd or $attrib))
                 or ($cmd and $attrib and 2 of ($locker_file, $encrypted_msg_*))
-                or (
-                    $attrib_hide or
-                    $attrib_system or
-                    $attrib_readonly or
-                    $attrib_index
-                )
+                or ($attrib_hide or $attrib_system or $attrib_readonly or $attrib_index)
                 or ($desktop or $downloads or $documents or $public or $lc_exe)
             )
         )
