@@ -42,11 +42,12 @@ jobs:
         run: |
           echo "=== STARTING YARA SYNTAX SCAN ==="
           FAILED=0
+          touch /tmp/empty
           
           while IFS= read -r -d '' rule_file; do
             echo "🔬 Reviewing: $rule_file"
             
-            if ! yara -p "$rule_file"; then
+            if ! yara "$rule_file" /tmp/empty; then
               echo "❌ ERROR: Syntax validation failed in $rule_file"
               FAILED=1
             fi
