@@ -2,14 +2,9 @@ name: YARA Advanced CI
 
 on:
   push:
-    paths:
-      - '**.yar'
-      - '**.yara'
-      - '.github/workflows/YARA_Syntax_Check.yaml'
+    paths: [ '**.yar', '**.yara', '.github/workflows/**' ]
   pull_request:
-    paths:
-      - '**.yar'
-      - '**.yara'
+    paths: [ '**.yar', '**.yara' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -24,38 +19,12 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Cache YARA Packages
-        id: cache-yara
-        uses: actions/cache@v4
+      - name: Install YARA Engine
+        uses: chmurak/setup-yara@v2
         with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-yara-apt-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-yara-apt-
+          yara-version: '4.5.2'
 
-      - name: Install YARA Core Engine
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y yara
-
-      - name: Execute Recursive Syntax Verification
+      - name: Execute Syntax Verification
         run: |
           echo "=== STARTING YARA SYNTAX SCAN ==="
-          FAILED=0
-          touch /tmp/empty
-          
-          while IFS= read -r -d '' rule_file; do
-            echo "🔬 Reviewing: $rule_file"
-            
-            if ! yara "$rule_file" /tmp/empty; then
-              echo "❌ ERROR: Syntax validation failed in $rule_file"
-              FAILED=1
-            fi
-          done < <(find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0)
-          
-          if [ $FAILED -ne 0 ]; then
-            echo "=== VALIDATION FAILED ==="
-            exit 1
-          fi
-          
-          echo "=== ALL RULES ARE VALID AND CLEAN ==="
+          find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0 | xargs -0 yara -w /dev/null
