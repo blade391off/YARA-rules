@@ -50,5 +50,4 @@ include "./MacOS_Malware/Miolab.yar"
 //include "./Trojans/RAT/QuasarRAT.yar"
 
 //include "./WinLock/NavalnyPass_2000.yar"
-//include "./WinLock/Winlock5413.yar"
 //include "./WinLock/Winlock_uxCryptor.yar"
