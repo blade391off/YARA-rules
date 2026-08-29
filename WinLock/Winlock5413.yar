@@ -3,63 +3,61 @@ import "hash"
 
 rule WinLocker_Winlock_uxCryptor
 {
-meta:
-author = "blade391off"
-date = "2026-08-18"
-version = "1.4"
-description = "Detect UxCryptor"
-family = "WinLocker"
-category = "Ransomware / ScreenLocker"
-threat_level = "critical"
-confidence = "high"
-reference = "ANY.RUN task 99bf97f2-6c23-4721-9e8c-8d722b74e7ac"
+    meta:
+        author = "blade391off"
+        date = "2026-08-18"
+        version = "1.4"
+        description = "Detect UxCryptor"
+        family = "WinLocker"
+        category = "Ransomware / ScreenLocker"
+        threat_level = "critical"
+        confidence = "high"
+        reference = "ANY.RUN task 99bf97f2-6c23-4721-9e8c-8d722b74e7ac"
 
-```
-strings:
-    $ux_cryptor_1 = "ux-cryptor.exe" ascii wide nocase
-    $ux_cryptor_2 = "crypt0rsx.exe" ascii wide nocase
-    $ux_cryptor_3 = "AWindowsService.exe" ascii wide nocase
-    $ux_cryptor_4 = "windowsx-c.exe" ascii wide nocase
-    $ux_cryptor_5 = "_default64.exe" ascii wide nocase
-    $ux_cryptor_6 = "WIN32_1" ascii wide nocase
-    $ux_cryptor_7 = "WIN32_2" ascii wide nocase
-    $ux_cryptor_8 = "WIN32_3" ascii wide nocase
-    $ux_cryptor_9 = "WIN32_4" ascii wide nocase
-    $ux_cryptor_10 = "WIN32_5" ascii wide nocase
-    $ux_cryptor_11 = "WIN32_6" ascii wide nocase
-    $ux_cryptor_12 = "WIN32_7" ascii wide nocase
-    $ux_cryptor_13 = "WIN32_8" ascii wide nocase
+    strings:
+        $ux1 = "ux-cryptor.exe" ascii wide nocase
+        $ux2 = "crypt0rsx.exe" ascii wide nocase
+        $ux3 = "AWindowsService.exe" ascii wide nocase
+        $ux4 = "windowsx-c.exe" ascii wide nocase
+        $ux5 = "_default64.exe" ascii wide nocase
 
-    $locker_file = "info-Locker.txt" ascii wide nocase
-    $unlocker_file = ".ux-cryptobytes" ascii wide nocase
+        $ux6 = "WIN32_1" ascii wide nocase
+        $ux7 = "WIN32_2" ascii wide nocase
+        $ux8 = "WIN32_3" ascii wide nocase
+        $ux9 = "WIN32_4" ascii wide nocase
+        $ux10 = "WIN32_5" ascii wide nocase
+        $ux11 = "WIN32_6" ascii wide nocase
+        $ux12 = "WIN32_7" ascii wide nocase
+        $ux13 = "WIN32_8" ascii wide nocase
 
-    $encrypted_msg_1 = "Your files are encrypted" ascii wide nocase
-    $encrypted_msg_2 = "Ooops!" ascii wide nocase
-    $encrypted_msg_3 = "Введите код разблокировки" wide
-    $encrypted_msg_4 = "Ваши файлы зашифрованы" wide
+        $locker = "info-Locker.txt" ascii wide nocase
+        $unlocker = ".ux-cryptobytes" ascii wide nocase
 
-    $run_key = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run" ascii wide nocase
-    $run_wininstaller = "WindowsInstaller" ascii wide nocase
-    $run_edgeupdate = "MSEdgeUpdateX" ascii wide nocase
+        $msg1 = "Your files are encrypted" ascii wide nocase
+        $msg2 = "Ooops!" ascii wide nocase
 
-    $cmd = "cmd.exe" ascii wide nocase
-    $attrib = "attrib" ascii wide nocase
-    $taskkill = "taskkill.exe" ascii wide nocase
-    $attrib_hide = "+h" ascii wide nocase
-    $attrib_system = "+s" ascii wide nocase
-    $attrib_readonly = "+r" ascii wide nocase
-    $attrib_index = "+i" ascii wide nocase
+        $run = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run" ascii wide nocase
+        $installer = "WindowsInstaller" ascii wide nocase
+        $edge = "MSEdgeUpdateX" ascii wide nocase
 
-    $desktop = "%userprofile%\\desktop" ascii wide nocase
-    $downloads = "%userprofile%\\downloads" ascii wide nocase
-    $documents = "%userprofile%\\documents" ascii wide nocase
-    $public = "%systemdrive%\\Users\\Public\\Desktop" ascii wide nocase
+        $cmd = "cmd.exe" ascii wide nocase
+        $attrib = "attrib" ascii wide nocase
+        $taskkill = "taskkill.exe" ascii wide nocase
 
-    $mscoree = "mscoree.dll" ascii wide nocase
-    $lc_exe = "lc.exe" ascii wide nocase
+        $hide = "+h" ascii wide nocase
+        $system = "+s" ascii wide nocase
+        $readonly = "+r" ascii wide nocase
+        $index = "+i" ascii wide nocase
 
-condition:
-    (
+        $desktop = "%userprofile%\\desktop" ascii wide nocase
+        $downloads = "%userprofile%\\downloads" ascii wide nocase
+        $documents = "%userprofile%\\documents" ascii wide nocase
+        $public = "%systemdrive%\\Users\\Public\\Desktop" ascii wide nocase
+
+        $mscoree = "mscoree.dll" ascii wide nocase
+        $lc = "lc.exe" ascii wide nocase
+
+    condition:
         uint16(0) == 0x5A4D
         and filesize <= 20MB
         and
@@ -76,108 +74,87 @@ condition:
             or hash.sha256(0, filesize) == "cec9df2d0292931147c824203ac9a594088e91ca04ea8cc128b7dc9dc42ae805"
             or hash.sha256(0, filesize) == "e49dc5724adee8f30ff25f0bb587e318f4f3d4c0f051866b437c831e7253b988"
         )
-    )
-    or
-    (
-        uint16(0) == 0x5A4D
-        and filesize <= 20MB
-        and
-        (
-            $mscoree
-            or pe.number_of_sections <= 5
-        )
-        and
-        (
-            (
-                $run_key
-                and
-                (
-                    $run_wininstaller
-                    or $run_edgeupdate
-                    or ($ux_cryptor_1 and $ux_cryptor_2)
-                    or ($ux_cryptor_1 and $ux_cryptor_3)
-                    or ($ux_cryptor_1 and $ux_cryptor_4)
-                    or ($ux_cryptor_1 and $ux_cryptor_5)
-                    or ($ux_cryptor_2 and $ux_cryptor_3)
-                    or ($ux_cryptor_2 and $ux_cryptor_4)
-                    or ($ux_cryptor_2 and $ux_cryptor_5)
-                    or ($ux_cryptor_3 and $ux_cryptor_4)
-                    or ($ux_cryptor_3 and $ux_cryptor_5)
-                    or ($ux_cryptor_4 and $ux_cryptor_5)
-                )
-            )
-            or
-            (
-                (
-                    ($encrypted_msg_1 and $encrypted_msg_2)
-                    or ($encrypted_msg_1 and $encrypted_msg_3)
-                    or ($encrypted_msg_1 and $encrypted_msg_4)
-                    or ($encrypted_msg_2 and $encrypted_msg_3)
-                    or ($encrypted_msg_2 and $encrypted_msg_4)
-                    or ($encrypted_msg_3 and $encrypted_msg_4)
-                )
-                and
-                ($locker_file or $unlocker_file)
-                and
-                ($cmd or $attrib or $taskkill)
-            )
-        )
         or
         (
+            uint16(0) == 0x5A4D
+            and filesize <= 20MB
+            and
             (
-                ($ux_cryptor_1 and $ux_cryptor_2 and $ux_cryptor_3)
-                or ($ux_cryptor_1 and $ux_cryptor_2 and $ux_cryptor_4)
-                or ($ux_cryptor_1 and $ux_cryptor_2 and $ux_cryptor_5)
-                or ($ux_cryptor_1 and $ux_cryptor_3 and $ux_cryptor_4)
-                or ($ux_cryptor_1 and $ux_cryptor_3 and $ux_cryptor_5)
-                or ($ux_cryptor_1 and $ux_cryptor_4 and $ux_cryptor_5)
-                or ($ux_cryptor_2 and $ux_cryptor_3 and $ux_cryptor_4)
-                or ($ux_cryptor_2 and $ux_cryptor_3 and $ux_cryptor_5)
-                or ($ux_cryptor_2 and $ux_cryptor_4 and $ux_cryptor_5)
-                or ($ux_cryptor_3 and $ux_cryptor_4 and $ux_cryptor_5)
+                $mscoree
+                or pe.number_of_sections <= 5
             )
             and
-            ($run_key or $cmd or $attrib)
-        )
-        or
-        (
-            $cmd
-            and $attrib
-            and
             (
-                $locker_file
-                or $unlocker_file
+                (
+                    $run
+                    and
+                    (
+                        $installer
+                        or $edge
+                        or ($ux1 and $ux2)
+                        or ($ux1 and $ux3)
+                        or ($ux1 and $ux4)
+                        or ($ux1 and $ux5)
+                        or ($ux2 and $ux3)
+                        or ($ux2 and $ux4)
+                        or ($ux2 and $ux5)
+                        or ($ux3 and $ux4)
+                        or ($ux3 and $ux5)
+                        or ($ux4 and $ux5)
+                    )
+                )
                 or
                 (
-                    ($encrypted_msg_1 and $encrypted_msg_2)
-                    or ($encrypted_msg_1 and $encrypted_msg_3)
-                    or ($encrypted_msg_1 and $encrypted_msg_4)
-                    or ($encrypted_msg_2 and $encrypted_msg_3)
-                    or ($encrypted_msg_2 and $encrypted_msg_4)
-                    or ($encrypted_msg_3 and $encrypted_msg_4)
+                    (
+                        ($locker and $unlocker)
+                        or ($locker and $msg1)
+                        or ($locker and $msg2)
+                        or ($unlocker and $msg1)
+                        or ($unlocker and $msg2)
+                        or ($msg1 and $msg2)
+                    )
+                    and
+                    (
+                        $cmd
+                        or $attrib
+                        or $taskkill
+                    )
+                )
+                or
+                (
+                    3 of ($ux1, $ux2, $ux3, $ux4, $ux5)
+                    and
+                    (
+                        $run
+                        or $cmd
+                        or $attrib
+                    )
+                )
+                or
+                (
+                    $cmd
+                    and $attrib
+                    and
+                    (
+                        $locker
+                        or $unlocker
+                        or $msg1
+                        or $msg2
+                    )
+                )
+                or $hide
+                or $system
+                or $readonly
+                or $index
+                or $desktop
+                or $downloads
+                or $documents
+                or $public
+                or $lc
+                or
+                (
+                    3 of ($ux6, $ux7, $ux8, $ux9, $ux10, $ux11, $ux12, $ux13)
                 )
             )
         )
-        or
-        (
-            $attrib_hide
-            or $attrib_system
-            or $attrib_readonly
-            or $attrib_index
-        )
-        or
-        (
-            $desktop
-            or $downloads
-            or $documents
-            or $public
-            or $lc_exe
-        )
-        or
-        (
-            3 of ($ux_cryptor_6, $ux_cryptor_7, $ux_cryptor_8,
-                   $ux_cryptor_9, $ux_cryptor_10, $ux_cryptor_11,
-                   $ux_cryptor_12, $ux_cryptor_13)
-        )
-    )
 }
