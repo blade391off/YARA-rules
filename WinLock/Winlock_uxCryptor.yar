@@ -14,7 +14,6 @@ threat_level = "critical"
 confidence = "high"
 reference = "ANY.RUN task 99bf97f2-6c23-4721-9e8c-8d722b74e7ac"
 
-```
 strings:
     $ux_cryptor_1 = "ux-cryptor.exe" ascii wide nocase
     $ux_cryptor_2 = "crypt0rsx.exe" ascii wide nocase
