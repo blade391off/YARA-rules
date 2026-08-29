@@ -1,9 +1,3 @@
-
-Это **не является синтаксисом YARA**. Плюс в реальном файле у Petya, судя по `illegal escape sequence`, где-то остался одиночный `\`.
-
-Вот полностью очищенный вариант без этих ошибок:
-
-```yara
 rule Production_Petya_Family_Blade391off
 {
     meta:
