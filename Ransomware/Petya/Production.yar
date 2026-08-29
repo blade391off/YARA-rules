@@ -109,8 +109,8 @@ rule Production_Petya_Family_Blade391off
         $sys_str_096 = "SeShutdownPrivilege" ascii fullword
         $sys_str_097 = "SeAssignPrimaryTokenPrivilege" ascii fullword
         $sys_str_098 = "SeIncreaseQuotaPrivilege" ascii fullword
-        $sys_str_099 = "\\*\admin$" ascii wide fullword
-        $sys_str_100 = "\\*\C$\Windows" ascii wide fullword
+        $sys_str_099 = "\\*\\admin$" ascii wide fullword
+        $sys_str_100 = "\\*\\C$\\Windows" ascii wide fullword
 
         $crypto_str_101 = "expand 32-byte k" ascii fullword
         $crypto_str_102 = "expand 16-byte k" ascii fullword
@@ -202,7 +202,7 @@ rule Production_Petya_Family_Blade391off
 
         $exploit_ms17_01 = { FF 53 44 4D 42 32 }
         $exploit_ms17_02 = { 00 00 00 50 46 45 32 00 }
-        $exploit_ms17_03 = { FE 53 4D 40 00 }
+        $exploit_ms17_03 = { FE 53 4D 42 40 00 }
         $exploit_ms17_04 = { 4D 53 31 37 2D 30 31 30 }
 
         $petya_perfc_dat = "C:\\Windows\\perfc.dat" ascii wide fullword
@@ -213,10 +213,10 @@ rule Production_Petya_Family_Blade391off
         and
         (
             $petya_perfc_dat
-            or (5 of ($petya_str_*))
-            or (5 of ($mischa_str_*))
-            or (3 of ($notpetya_str_*))
-            or (5 of ($goldeneye_str_*))
+            or 5 of ($petya_str_*)
+            or 5 of ($mischa_str_*)
+            or 3 of ($notpetya_str_*)
+            or 5 of ($goldeneye_str_*)
             or
             (
                 3 of ($hex_mbr_*)
@@ -249,3 +249,4 @@ rule Production_Petya_Family_Blade391off
                 and 5 of ($fs_str_*)
             )
         )
+}
