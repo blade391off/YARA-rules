@@ -1,4 +1,3 @@
-```yara
 import "pe"
 import "hash"
 
@@ -97,4 +96,3 @@ rule WinLocker_Winlock_uxCryptor
             )
         )
 }
-```
