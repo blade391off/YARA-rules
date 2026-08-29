@@ -1,3 +1,4 @@
+```yara
 import "pe"
 import "hash"
 
@@ -80,8 +81,8 @@ rule WinLocker_Winlock_uxCryptor
         or
         (
             uint16(0) == 0x5A4D
-            and pe.is_pe
-            and filesize <= 20 MB
+            and
+            filesize <= 20 MB
             and
             (
                 $mscoree
@@ -115,7 +116,8 @@ rule WinLocker_Winlock_uxCryptor
                 or
                 (
                     $cmd
-                    and $attrib
+                    and
+                    $attrib
                     and
                     (
                         $locker_file
@@ -141,3 +143,4 @@ rule WinLocker_Winlock_uxCryptor
             )
         )
 }
+```
