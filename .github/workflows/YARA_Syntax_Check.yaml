@@ -2,9 +2,16 @@ name: YARA Advanced CI
 
 on:
   push:
-    paths: [ '**.yar', '**.yara', '.github/workflows/**' ]
+    paths:
+      - '**.yar'
+      - '**.yara'
+      - '.github/workflows/**'
+
   pull_request:
-    paths: [ '**.yar', '**.yara' ]
+    paths:
+      - '**.yar'
+      - '**.yara'
+      - '.github/workflows/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,32 +19,111 @@ concurrency:
 
 jobs:
   yara-validation:
-    name: Validate Rules Syntax
+    name: Validate YARA Rules
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Install YARA Engine
+      - name: Install YARA
         run: |
           sudo apt-get update
           sudo apt-get install -y yara
 
-      - name: Execute Syntax Verification
+      - name: Show YARA Version
         run: |
-          echo "=== STARTING YARA SYNTAX SCAN ==="
+          echo "========================================"
+          echo "             YARA VERSION"
+          echo "========================================"
+          yara --version
+          echo
+
+      - name: Validate Every YARA File
+        shell: bash
+        run: |
+          set +e
+
           FAILED=0
-          
+          TOTAL=0
+          PASSED=0
+          FAILED_FILES=0
+          ERRORS=0
+
+          echo "========================================"
+          echo "        YARA DATABASE VALIDATION"
+          echo "========================================"
+          echo
+
           while IFS= read -r -d '' rule_file; do
-            if ! yara -w "$rule_file" /dev/null; then
+            TOTAL=$((TOTAL + 1))
+
+            echo "----------------------------------------"
+            echo "FILE: $rule_file"
+            echo "----------------------------------------"
+
+            OUTPUT=$(yara -w "$rule_file" /dev/null 2>&1)
+            STATUS=$?
+
+            if [ "$STATUS" -eq 0 ]; then
+              echo "STATUS: ✅ VALID"
+              PASSED=$((PASSED + 1))
+            else
+              echo "STATUS: ❌ INVALID"
               FAILED=1
+              FAILED_FILES=$((FAILED_FILES + 1))
+              echo
+
+              while IFS= read -r error_line; do
+                [ -z "$error_line" ] && continue
+
+                if [[ "$error_line" =~ :([0-9]+):[[:space:]]*(.*) ]]; then
+                  LINE="${BASH_REMATCH[1]}"
+                  MESSAGE="${BASH_REMATCH[2]}"
+
+                  echo "ERROR: Line $LINE"
+                  echo "       $MESSAGE"
+                elif [[ "$error_line" =~ \(([0-9]+)\):[[:space:]]*(.*) ]]; then
+                  LINE="${BASH_REMATCH[1]}"
+                  MESSAGE="${BASH_REMATCH[2]}"
+
+                  echo "ERROR: Line $LINE"
+                  echo "       $MESSAGE"
+                else
+                  echo "ERROR: $error_line"
+                fi
+
+                ERRORS=$((ERRORS + 1))
+              done <<< "$OUTPUT"
             fi
-          done < <(find . -type f \( -name "*.yar" -o -name "*.yara" \) -print0)
-          
-          if [ $FAILED -ne 0 ]; then
-            echo "=== VALIDATION FAILED ==="
+
+            echo
+          done < <(
+            find . \
+              -type f \
+              \( -name "*.yar" -o -name "*.yara" \) \
+              -not -path "./.git/*" \
+              -print0 | sort -z
+          )
+
+          echo
+          echo "========================================"
+          echo "               SUMMARY"
+          echo "========================================"
+          echo
+          echo "Total files : $TOTAL"
+          echo "Valid files : $PASSED"
+          echo "Failed files: $FAILED_FILES"
+          echo "Total errors: $ERRORS"
+          echo
+          echo "========================================"
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo
+            echo "❌ YARA VALIDATION FAILED"
+            echo "Fix the errors listed above."
             exit 1
           fi
-          
-          echo "=== ALL RULES ARE VALID AND CLEAN ==="
+
+          echo
+          echo "✅ ALL YARA FILES ARE VALID"
