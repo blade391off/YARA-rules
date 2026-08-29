@@ -39,7 +39,7 @@ jobs:
           yara --version
           echo
 
-      - name: Validate Every YARA File
+      - name: Validate Individual YARA Rules
         shell: bash
         run: |
           set +e
@@ -51,11 +51,16 @@ jobs:
           ERRORS=0
 
           echo "========================================"
-          echo "        YARA DATABASE VALIDATION"
+          echo "      INDIVIDUAL YARA VALIDATION"
           echo "========================================"
           echo
 
           while IFS= read -r -d '' rule_file; do
+
+            if [ "$rule_file" = "./index.yar" ]; then
+              continue
+            fi
+
             TOTAL=$((TOTAL + 1))
 
             echo "----------------------------------------"
@@ -66,64 +71,171 @@ jobs:
             STATUS=$?
 
             if [ "$STATUS" -eq 0 ]; then
+
               echo "STATUS: ✅ VALID"
               PASSED=$((PASSED + 1))
+
             else
+
               echo "STATUS: ❌ INVALID"
               FAILED=1
               FAILED_FILES=$((FAILED_FILES + 1))
               echo
 
+              FILE_ERRORS=0
+
               while IFS= read -r error_line; do
+
                 [ -z "$error_line" ] && continue
 
                 if [[ "$error_line" =~ :([0-9]+):[[:space:]]*(.*) ]]; then
+
                   LINE="${BASH_REMATCH[1]}"
                   MESSAGE="${BASH_REMATCH[2]}"
 
                   echo "ERROR: Line $LINE"
                   echo "       $MESSAGE"
+
+                  ERRORS=$((ERRORS + 1))
+                  FILE_ERRORS=$((FILE_ERRORS + 1))
+
                 elif [[ "$error_line" =~ \(([0-9]+)\):[[:space:]]*(.*) ]]; then
+
                   LINE="${BASH_REMATCH[1]}"
                   MESSAGE="${BASH_REMATCH[2]}"
 
                   echo "ERROR: Line $LINE"
                   echo "       $MESSAGE"
+
+                  ERRORS=$((ERRORS + 1))
+                  FILE_ERRORS=$((FILE_ERRORS + 1))
+
                 else
+
                   echo "ERROR: $error_line"
+
+                  ERRORS=$((ERRORS + 1))
+                  FILE_ERRORS=$((FILE_ERRORS))
+
                 fi
 
-                ERRORS=$((ERRORS + 1))
               done <<< "$OUTPUT"
+
+              echo
+              echo "ERRORS IN FILE: $FILE_ERRORS"
+
             fi
 
             echo
+
           done < <(
             find . \
               -type f \
               \( -name "*.yar" -o -name "*.yara" \) \
               -not -path "./.git/*" \
+              -not -path "./index.yar" \
               -print0 | sort -z
           )
+
+          echo
+          echo "========================================"
+          echo "              INDEX VALIDATION"
+          echo "========================================"
+          echo
+
+          if [ -f "./index.yar" ]; then
+
+            echo "----------------------------------------"
+            echo "FILE: ./index.yar"
+            echo "----------------------------------------"
+
+            INDEX_OUTPUT=$(yara -w ./index.yar /dev/null 2>&1)
+            INDEX_STATUS=$?
+
+            if [ "$INDEX_STATUS" -eq 0 ]; then
+
+              echo "STATUS: ✅ VALID"
+
+            else
+
+              echo "STATUS: ❌ INVALID"
+              FAILED=1
+              FAILED_FILES=$((FAILED_FILES + 1))
+              echo
+
+              INDEX_ERRORS=0
+
+              while IFS= read -r error_line; do
+
+                [ -z "$error_line" ] && continue
+
+                if [[ "$error_line" =~ :([0-9]+):[[:space:]]*(.*) ]]; then
+
+                  LINE="${BASH_REMATCH[1]}"
+                  MESSAGE="${BASH_REMATCH[2]}"
+
+                  echo "ERROR: Line $LINE"
+                  echo "       $MESSAGE"
+
+                  ERRORS=$((ERRORS + 1))
+                  INDEX_ERRORS=$((INDEX_ERRORS + 1))
+
+                elif [[ "$error_line" =~ \(([0-9]+)\):[[:space:]]*(.*) ]]; then
+
+                  LINE="${BASH_REMATCH[1]}"
+                  MESSAGE="${BASH_REMATCH[2]}"
+
+                  echo "ERROR: Line $LINE"
+                  echo "       $MESSAGE"
+
+                  ERRORS=$((ERRORS + 1))
+                  INDEX_ERRORS=$((INDEX_ERRORS + 1))
+
+                else
+
+                  echo "ERROR: $error_line"
+
+                  ERRORS=$((ERRORS + 1))
+                  INDEX_ERRORS=$((INDEX_ERRORS + 1))
+
+                fi
+
+              done <<< "$INDEX_OUTPUT"
+
+              echo
+              echo "ERRORS IN INDEX: $INDEX_ERRORS"
+
+            fi
+
+          else
+
+            echo "STATUS: ⚠️ index.yar NOT FOUND"
+
+          fi
 
           echo
           echo "========================================"
           echo "               SUMMARY"
           echo "========================================"
           echo
-          echo "Total files : $TOTAL"
-          echo "Valid files : $PASSED"
-          echo "Failed files: $FAILED_FILES"
-          echo "Total errors: $ERRORS"
+          echo "Individual files : $TOTAL"
+          echo "Valid files      : $PASSED"
+          echo "Failed files     : $FAILED_FILES"
+          echo "Total errors     : $ERRORS"
           echo
           echo "========================================"
 
           if [ "$FAILED" -ne 0 ]; then
+
             echo
             echo "❌ YARA VALIDATION FAILED"
             echo "Fix the errors listed above."
+            echo
+
             exit 1
+
           fi
 
           echo
-          echo "✅ ALL YARA FILES ARE VALID"
+          echo "✅ ALL YARA RULES ARE VALID"
+          echo
