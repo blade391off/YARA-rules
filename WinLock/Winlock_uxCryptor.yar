@@ -1,3 +1,4 @@
+```yara
 import "pe"
 import "hash"
 
@@ -6,7 +7,7 @@ rule WinLocker_Winlock_uxCryptor
     meta:
         author = "blade391off"
         date = "2026-08-18"
-        version = "1.2"
+        version = "1.3"
         description = "Detect UxCryptor"
         family = "WinLocker"
         category = "Ransomware / ScreenLocker"
@@ -30,7 +31,8 @@ rule WinLocker_Winlock_uxCryptor
         $ux_cryptor_13 = "WIN32_8" ascii wide nocase
 
         $locker_file = "info-Locker.txt" ascii wide nocase
-        $unlocker_file = "\\$unlocker_id.ux-cryptobytes" ascii wide nocase
+        $unlocker_file = ".ux-cryptobytes" ascii wide nocase
+
         $encrypted_msg_1 = "Your files are encrypted" ascii wide nocase
         $encrypted_msg_2 = "Ooops!" ascii wide nocase
         $encrypted_msg_3 = "Введите код разблокировки" wide
@@ -78,7 +80,6 @@ rule WinLocker_Winlock_uxCryptor
         or
         (
             uint16(0) == 0x5A4D
-            and pe.is_pe
             and filesize <= 20 MB
             and
             (
@@ -96,3 +97,4 @@ rule WinLocker_Winlock_uxCryptor
             )
         )
 }
+```
