@@ -1,4 +1,3 @@
-```yara
 import "pe"
 import "hash"
 
@@ -7,7 +6,7 @@ rule WinLocker_Winlock_uxCryptor
     meta:
         author = "blade391off"
         date = "2026-08-18"
-        version = "1.3"
+        version = "1.4"
         description = "Detect UxCryptor"
         family = "WinLocker"
         category = "Ransomware / ScreenLocker"
@@ -61,8 +60,7 @@ rule WinLocker_Winlock_uxCryptor
     condition:
         (
             uint16(0) == 0x5A4D
-            and
-            filesize <= 20 MB
+            and filesize <= 20MB
             and
             (
                 hash.sha256(0, filesize) == "d3f47cd85c525a0c3ed855949bf27023c27b24c51d388166d72d4fa8cae4c2f5"
@@ -81,8 +79,7 @@ rule WinLocker_Winlock_uxCryptor
         or
         (
             uint16(0) == 0x5A4D
-            and
-            filesize <= 20 MB
+            and filesize <= 20MB
             and
             (
                 $mscoree
@@ -96,51 +93,198 @@ rule WinLocker_Winlock_uxCryptor
                     (
                         $run_wininstaller
                         or $run_edgeupdate
-                        or 2 of ($ux_cryptor_*)
+                        or
+                        (
+                            $ux_cryptor_1
+                            and $ux_cryptor_2
+                        )
+                        or
+                        (
+                            $ux_cryptor_1
+                            and $ux_cryptor_3
+                        )
+                        or
+                        (
+                            $ux_cryptor_1
+                            and $ux_cryptor_4
+                        )
+                        or
+                        (
+                            $ux_cryptor_1
+                            and $ux_cryptor_5
+                        )
+                        or
+                        (
+                            $ux_cryptor_2
+                            and $ux_cryptor_3
+                        )
+                        or
+                        (
+                            $ux_cryptor_2
+                            and $ux_cryptor_4
+                        )
+                        or
+                        (
+                            $ux_cryptor_2
+                            and $ux_cryptor_5
+                        )
+                        or
+                        (
+                            $ux_cryptor_3
+                            and $ux_cryptor_4
+                        )
+                        or
+                        (
+                            $ux_cryptor_3
+                            and $ux_cryptor_5
+                        )
+                        or
+                        (
+                            $ux_cryptor_4
+                            and $ux_cryptor_5
+                        )
                     )
                 )
                 or
                 (
-                    2 of ($encrypted_msg_*)
-                    and
-                    ($locker_file or $unlocker_file)
-                    and
-                    ($cmd or $attrib or $taskkill)
-                )
-                or
-                (
-                    3 of ($ux_cryptor_*)
-                    and
-                    ($run_key or $cmd or $attrib)
-                )
-                or
-                (
-                    $cmd
-                    and
-                    $attrib
-                    and
                     (
-                        $locker_file
-                        or $unlocker_file
-                        or 2 of ($encrypted_msg_*)
+                        $encrypted_msg_1
+                        and $encrypted_msg_2
+                    )
+                    or
+                    (
+                        $encrypted_msg_1
+                        and $encrypted_msg_3
+                    )
+                    or
+                    (
+                        $encrypted_msg_1
+                        and $encrypted_msg_4
+                    )
+                    or
+                    (
+                        $encrypted_msg_2
+                        and $encrypted_msg_3
+                    )
+                    or
+                    (
+                        $encrypted_msg_2
+                        and $encrypted_msg_4
+                    )
+                    or
+                    (
+                        $encrypted_msg_3
+                        and $encrypted_msg_4
                     )
                 )
-                or
+                and
+                ($locker_file or $unlocker_file)
+                and
+                ($cmd or $attrib or $taskkill)
+            )
+            or
+            (
                 (
-                    $attrib_hide
-                    or $attrib_system
-                    or $attrib_readonly
-                    or $attrib_index
+                    $ux_cryptor_1
+                    and $ux_cryptor_2
+                    and $ux_cryptor_3
                 )
                 or
                 (
-                    $desktop
-                    or $downloads
-                    or $documents
-                    or $public
-                    or $lc_exe
+                    $ux_cryptor_1
+                    and $ux_cryptor_2
+                    and $ux_cryptor_4
                 )
+                or
+                (
+                    $ux_cryptor_1
+                    and $ux_cryptor_2
+                    and $ux_cryptor_5
+                )
+                or
+                (
+                    $ux_cryptor_1
+                    and $ux_cryptor_3
+                    and $ux_cryptor_4
+                )
+                or
+                (
+                    $ux_cryptor_1
+                    and $ux_cryptor_3
+                    and $ux_cryptor_5
+                )
+                or
+                (
+                    $ux_cryptor_1
+                    and $ux_cryptor_4
+                    and $ux_cryptor_5
+                )
+                or
+                (
+                    $ux_cryptor_2
+                    and $ux_cryptor_3
+                    and $ux_cryptor_4
+                )
+                or
+                (
+                    $ux_cryptor_2
+                    and $ux_cryptor_3
+                    and $ux_cryptor_5
+                )
+                or
+                (
+                    $ux_cryptor_2
+                    and $ux_cryptor_4
+                    and $ux_cryptor_5
+                )
+                or
+                (
+                    $ux_cryptor_3
+                    and $ux_cryptor_4
+                    and $ux_cryptor_5
+                )
+            )
+            and
+            ($run_key or $cmd or $attrib)
+            or
+            (
+                $cmd
+                and $attrib
+                and
+                (
+                    $locker_file
+                    or $unlocker_file
+                    or
+                    (
+                        ($encrypted_msg_1 and $encrypted_msg_2)
+                        or
+                        ($encrypted_msg_1 and $encrypted_msg_3)
+                        or
+                        ($encrypted_msg_1 and $encrypted_msg_4)
+                        or
+                        ($encrypted_msg_2 and $encrypted_msg_3)
+                        or
+                        ($encrypted_msg_2 and $encrypted_msg_4)
+                        or
+                        ($encrypted_msg_3 and $encrypted_msg_4)
+                    )
+                )
+            )
+            or
+            (
+                $attrib_hide
+                or $attrib_system
+                or $attrib_readonly
+                or $attrib_index
+            )
+            or
+            (
+                $desktop
+                or $downloads
+                or $documents
+                or $public
+                or $lc_exe
             )
         )
 }
-```
+
