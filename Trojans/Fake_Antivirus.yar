@@ -32,16 +32,16 @@ rule Fake_Antivirus_Generic_Optimized {
         $lock_1 = "DisableRegistryTools" ascii wide fullword
 
     condition:
-        uint16(0) == 0x5A4D and 
-        filesize < 10MB and 
-        pe.is_dll() == false and 
-        pe.number_of_signatures == 0 and 
+        uint16(0) == 0x5A4D and
+        filesize < 10MB and
+        not pe.is_dll() and
+        pe.number_of_signatures == 0 and
         (
-            (3 of ($alert_*) and 2 of ($pay_*)) or 
-            (2 of ($alert_*) and 2 of ($ui_*) and 1 of ($pay_*)) or 
+            (3 of ($alert_*) and 2 of ($pay_*)) or
+            (2 of ($alert_*) and 2 of ($ui_*) and 1 of ($pay_*)) or
             (
-                $reg_path and 
-                1 of ($lock_*) and 
+                $reg_path and
+                1 of ($lock_*) and
                 (2 of ($alert_*) or 1 of ($pay_*))
             )
         )
