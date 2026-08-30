@@ -19,7 +19,8 @@ rule EMOTET_Trojan {
         $str_loader_proc = "GetProcAddress" ascii
 
     condition:
-        uint16(0) == 0x5A4D and filesize < 3MB and
+        uint16(0) == 0x5A4D and
+        filesize < 3MB and
         (
             ($hex_emotet_xor_loop and $hex_api_hash_calc) or
             ($hex_syscall_resolve and $hex_api_hash_calc) or
@@ -57,11 +58,13 @@ rule EMOTET_Dropper {
         $cmd_4 = "cscript" ascii wide nocase
         $cmd_5 = "wscript" ascii wide nocase
 
-        $net_url_regex = /https?:\/\/[^\s"']+\.[a-z]{2,6}\/[a-zA-Z0-9_\-\.]+\.(exe|dll|ocx|dat)/ ascii wide nocase
+        $net_url_regex = /https?:\/\/[^\s"']+\.[a-z]{2,6}\/[a-zA-Z0-9_\-\.]+\.(exe|dll|ocx|dat)/ ascii nocase
 
     condition:
         (
-            (uint16(0) == 0xCFD0 or uint32(0) == 0x464F4A1A or uint32(0) == 0x504B0304) and 
+            (uint16(0) == 0xCFD0 or
+             uint32(0) == 0x464F4A1A or
+             uint32(0) == 0x504B0304) and
             (
                 (2 of ($wmi_*) and 1 of ($cmd_*)) or
                 (1 of ($wmi_*) and 2 of ($enc_*) and 1 of ($cmd_*)) or
@@ -69,7 +72,9 @@ rule EMOTET_Dropper {
             )
         ) or
         (
-            uint16(0) == 0x5A4D and filesize < 5MB and pe.is_dll() == false and
+            uint16(0) == 0x5A4D and
+            filesize < 5MB and
+            not pe.is_dll() and
             (
                 (3 of ($cmd_*) and $net_url_regex) or
                 (2 of ($cmd_*) and 2 of ($enc_*))
