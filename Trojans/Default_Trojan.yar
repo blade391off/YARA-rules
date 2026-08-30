@@ -1,4 +1,3 @@
-
 import "pe"
 
 rule Default_Trojan {
