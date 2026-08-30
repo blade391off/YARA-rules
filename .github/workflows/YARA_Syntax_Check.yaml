@@ -26,6 +26,59 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
+      - name: Debug YARA Files
+        shell: bash
+        run: |
+          echo "========================================"
+          echo "          YARA FILE DEBUG"
+          echo "========================================"
+          echo
+
+          echo "Current directory:"
+          pwd
+          echo
+
+          echo "Repository root:"
+          ls -la
+          echo
+
+          echo "Trojans directory:"
+          ls -la ./Trojans
+          echo
+
+          echo "RAT directory:"
+          ls -la ./Trojans/RAT
+          echo
+
+          echo "WinLock directory:"
+          ls -la ./WinLock
+          echo
+
+          echo "Checking required files:"
+          echo
+
+          for file in \
+            "./Trojans/Emotet.yar" \
+            "./Trojans/Fake_Antivirus.yar" \
+            "./Trojans/MEMZ_Trojan.yar" \
+            "./Trojans/ZEUS.yar" \
+            "./Trojans/RAT/AsyncRAT.yar" \
+            "./Trojans/RAT/DarkComet.yar" \
+            "./Trojans/RAT/NjRAT.yar" \
+            "./Trojans/RAT/QuasarRAT.yar" \
+            "./WinLock/NavalnyPass_2000.yar" \
+            "./WinLock/Winlock_uxCryptor.yar"
+          do
+            if [ -f "$file" ]; then
+              echo "✅ EXISTS: $file"
+            else
+              echo "❌ MISSING: $file"
+            fi
+          done
+
+          echo
+          echo "========================================"
+
       - name: Install YARA
         run: |
           sudo apt-get update
@@ -115,7 +168,7 @@ jobs:
                   echo "ERROR: $error_line"
 
                   ERRORS=$((ERRORS + 1))
-                  FILE_ERRORS=$((FILE_ERRORS))
+                  FILE_ERRORS=$((FILE_ERRORS + 1))
 
                 fi
 
