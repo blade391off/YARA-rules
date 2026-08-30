@@ -1,4 +1,4 @@
-```yara
+
 import "pe"
 
 rule Default_Trojan {
@@ -55,4 +55,4 @@ rule Default_Trojan {
             )
         )
 }
-```
+
