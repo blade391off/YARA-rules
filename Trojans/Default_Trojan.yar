@@ -1,5 +1,5 @@
+```yara
 import "pe"
-import "math"
 
 rule Default_Trojan {
     meta:
@@ -32,19 +32,27 @@ rule Default_Trojan {
         $hex_unhooking = { 4C 8B D1 B8 18 00 00 00 0F 05 }
 
     condition:
-        uint16(0) == 0x5A4D and filesize > 10KB and filesize < 10MB and pe.is_dll() == false and
-        (
-            $str_name or
-            (1 of ($hex_*) and (3 of ($api_inj_*) or 1 of ($cmd_*))) or
-            ($hex_unhooking and 2 of ($api_inj_*)) or
-            (
-                filesize < 2MB and 
-                pe.number_of_sections > 0 and 
-                for any i in (0..pe.number_of_sections-1): (
-                    (pe.sections[i].name matches /^\.?[Tt][Ee][Xx][Tt]$/ or pe.sections[i].name matches /^[Cc][Oo][Dd][Ee]$/) and 
-                    math.entropy(pe.sections[i].raw_data_offset, pe.sections[i].raw_data_size) > 7.7
-                ) and 
-                (2 of ($api_inj_*) or 1 of ($cmd_*))
+        uint16(0) == 0x5A4D
+        and filesize > 10KB
+        and filesize < 10MB
+        and not pe.is_dll()
+        and (
+            $str_name
+            or (1 of ($hex_*) and (3 of ($api_inj_*) or 1 of ($cmd_*)))
+            or ($hex_unhooking and 2 of ($api_inj_*))
+            or (
+                filesize < 2MB
+                and pe.number_of_sections > 0
+                and for any i in (0..pe.number_of_sections-1): (
+                    (
+                        pe.sections[i].name matches /^\.?[Tt][Ee][Xx][Tt]$/
+                        or pe.sections[i].name matches /^[Cc][Oo][Dd][Ee]$/
+                    )
+                    and pe.sections[i].virtual_size > 0
+                    and pe.sections[i].entropy > 7.7
+                )
+                and (2 of ($api_inj_*) or 1 of ($cmd_*))
             )
         )
 }
+```
