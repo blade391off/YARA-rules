@@ -1,3 +1,4 @@
+```yara
 import "pe"
 
 rule Default_Trojan {
@@ -37,21 +38,22 @@ rule Default_Trojan {
         and not pe.is_dll()
         and (
             $str_name
-            or (1 of ($hex_*) and (3 of ($api_inj_*) or 1 of ($cmd_*)))
-            or ($hex_unhooking and 2 of ($api_inj_*))
+            or (
+                1 of ($hex_*)
+                and (3 of ($api_inj_*) or 1 of ($cmd_*))
+            )
+            or (
+                $hex_unhooking
+                and 2 of ($api_inj_*)
+            )
             or (
                 filesize < 2MB
                 and pe.number_of_sections > 0
-                and for any i in (0..pe.number_of_sections-1): (
-                    (
-                        pe.sections[i].name matches /^\.?[Tt][Ee][Xx][Tt]$/
-                        or pe.sections[i].name matches /^[Cc][Oo][Dd][Ee]$/
-                    )
-                    and pe.sections[i].virtual_size > 0
-                    and pe.sections[i].entropy > 7.7
+                and (
+                    2 of ($api_inj_*)
+                    or 1 of ($cmd_*)
                 )
-                and (2 of ($api_inj_*) or 1 of ($cmd_*))
             )
         )
 }
-
+```
