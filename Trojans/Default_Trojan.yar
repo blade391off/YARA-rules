@@ -1,12 +1,12 @@
-```yara
 import "pe"
 
-rule Default_Trojan {
+rule Default_Trojan
+{
     meta:
         author = "blade391off"
-        description = "Production-grade optimized rule for Default_Trojan focusing on high-confidence binary patterns and behavior"
-        date = "2026-08-08"
-        version = "1.0"
+        description = "Detects suspicious Windows PE files using process injection and destructive command indicators"
+        date = "2026-08-30"
+        version = "1.1"
         severity = "Critical"
         sharing = "TLP:CLEAR"
 
@@ -36,24 +36,34 @@ rule Default_Trojan {
         and filesize > 10KB
         and filesize < 10MB
         and not pe.is_dll()
-        and (
+        and
+        (
             $str_name
-            or (
+            or
+            (
                 1 of ($hex_*)
-                and (3 of ($api_inj_*) or 1 of ($cmd_*))
+                and
+                (
+                    3 of ($api_inj_*)
+                    or
+                    1 of ($cmd_*)
+                )
             )
-            or (
+            or
+            (
                 $hex_unhooking
                 and 2 of ($api_inj_*)
             )
-            or (
+            or
+            (
                 filesize < 2MB
                 and pe.number_of_sections > 0
-                and (
+                and
+                (
                     2 of ($api_inj_*)
-                    or 1 of ($cmd_*)
+                    or
+                    1 of ($cmd_*)
                 )
             )
         )
 }
-```
