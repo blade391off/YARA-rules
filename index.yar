@@ -1,3 +1,5 @@
+include "./Generic/Generic_Malware.yar"
+
 include "./HackTools/Chisel_Ligolo.yar"
 include "./HackTools/Cobalt_Strike.yar"
 include "./HackTools/Impacket_Tools.yar"
