@@ -32,10 +32,9 @@ rule Zeus_Trojan_10_Layers {
         $uac_1 = "asInvoker" ascii wide nocase
 
         $hex_rc4_zeus = {
-            8A [0-4] 02
-            [0-4] 8A [0-4] 88
-            [0-4] 88 [0-4] 03
-            [0-4] 81 [0-4] FF 00 00 00
+            8A [0-4] 02 [0-4] 8A [0-4] 88
+            [0-4] 88 [0-4] 03 [0-4] 81 [0-4] FF
+            00 00 00
         }
 
     condition:
@@ -46,6 +45,7 @@ rule Zeus_Trojan_10_Layers {
         and pe.number_of_sections >= 3
         and pe.number_of_sections <= 7
         and pe.number_of_signatures == 0
+
         and (
             for any i in (0..pe.number_of_sections - 1) : (
                 (
@@ -55,14 +55,19 @@ rule Zeus_Trojan_10_Layers {
                 )
                 and pe.sections[i].raw_data_size > 0
                 and pe.sections[i].raw_data_size < 2MB
-                and pe.sections[i].entropy > 7.2
+                and math.entropy(
+                    pe.sections[i].raw_data_offset,
+                    pe.sections[i].raw_data_size
+                ) > 7.2
             )
         )
+
         and (
             pe.imports("kernel32.dll", "VirtualAlloc")
             or
             pe.imports("kernel32.dll", "CreateProcessA")
         )
+
         and (
             (all of ($cfg_*) and 2 of ($api_hook_*))
             or
