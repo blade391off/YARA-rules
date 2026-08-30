@@ -1,6 +1,7 @@
 import "pe"
 
-rule Win_Malware_Lumma_Stealer_Triage {
+rule Win_Malware_Lumma_Stealer_Triage
+{
     meta:
         rule_id = "LUMMA-0001"
         description = "Triage and classification YARA rule targeting Lumma Stealer samples based on observed C2 structures and target browser telemetry"
@@ -14,7 +15,7 @@ rule Win_Malware_Lumma_Stealer_Triage {
     strings:
         $c2_boundary_01 = "----WebKitFormBoundarylumma" ascii wide
         $c2_boundary_02 = "Content-Disposition: form-data; name=" ascii wide
-        
+
         $c2_param_01 = "conext" ascii wide
         $c2_param_02 = "action=get_config" ascii wide
         $c2_param_03 = "pid=" ascii wide
@@ -22,7 +23,7 @@ rule Win_Malware_Lumma_Stealer_Triage {
         $c2_param_05 = "tid=" ascii wide
         $c2_param_06 = "client_id=" ascii wide
 
-        $ua_exact_01 = "TeslaBrowser/5.5" ascii wide cased
+        $ua_exact_01 = "TeslaBrowser/5.5" ascii wide
 
         $log_fmt_01 = "--- HARDWARE INFO ---" ascii wide
         $log_fmt_02 = "--- SCREENSHOT ---" ascii wide
@@ -54,14 +55,19 @@ rule Win_Malware_Lumma_Stealer_Triage {
         $target_file_06 = "logins.json" wide
 
     condition:
-        uint16(0) == 0x5A4D and 
-        pe.is_pe and 
-        filesize < 8MB and
+        uint16(0) == 0x5A4D
+        and pe.is_pe
+        and filesize < 8MB
+        and
         (
-            ( all of ($c2_boundary_*) and any of ($target_file_*) ) or
-            ( $ua_exact_01 and 2 of ($target_file_*) ) or
-            ( 3 of ($c2_param_*) and 2 of ($log_fmt_*) ) or
-            ( 2 of ($c2_param_*) and 4 of ($ext_*) ) or
-            ( 3 of ($target_file_*) and 2 of ($log_fmt_*) )
+            (all of ($c2_boundary_*) and any of ($target_file_*))
+            or
+            ($ua_exact_01 and 2 of ($target_file_*))
+            or
+            (3 of ($c2_param_*) and 2 of ($log_fmt_*))
+            or
+            (2 of ($c2_param_*) and 4 of ($ext_*))
+            or
+            (3 of ($target_file_*) and 2 of ($log_fmt_*))
         )
 }
