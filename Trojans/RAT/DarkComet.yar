@@ -24,7 +24,9 @@ rule DarkComet_Trojan {
         $hex_key_resolve = { 8A [0-4] 30 [0-4] 40 3B [0-4] 7C }
 
     condition:
-        uint16(0) == 0x5A4D and filesize < 4MB and pe.is_dll() == false and
+        uint16(0) == 0x5A4D and
+        filesize < 4MB and
+        not pe.is_dll() and
         all of ($delphi_*) and
         (
             (any of ($str_key_*) and 1 of ($hex_*)) or
