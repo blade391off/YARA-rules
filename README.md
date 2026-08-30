@@ -11,7 +11,7 @@ The first YARA rule in this repository is [`Generic_Malware.yar`](https://github
 
 ---
 
-## 👤 About Me
+##  About Me
 
 My name is **Timofiy**.
 
@@ -41,7 +41,7 @@ In the future, I may add Python code that combines or processes the YARA rules.
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```text
 YARA-rules/                             # Project root
