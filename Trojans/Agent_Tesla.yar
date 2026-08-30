@@ -14,8 +14,6 @@ mitre_tactics = "TA0006 Credential Access, TA0009 Collection, TA0011 Command and
 strings:
     $net_loader_0 = "v4.0.30319" ascii fullword
     $net_loader_1 = "<Module>" ascii fullword
-    $net_loader_2 = "RuntimeCompatibilityAttribute" ascii fullword
-    $net_loader_3 = "CompilationRelaxationsAttribute" ascii fullword
 
     $guid_0 = "93c20d7e-06e9-44be-86bb-db9d60edc773" ascii wide
     $guid_1 = "29780517-84b2-4f61-b4f0-97c36a4da40c" ascii wide
