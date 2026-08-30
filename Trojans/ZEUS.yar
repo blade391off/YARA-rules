@@ -4,9 +4,9 @@ import "math"
 rule Zeus_Trojan_10_Layers {
     meta:
         author = "blade391off"
-        description = "Production-grade ultra-secure 10-layer detection rule for Zeus (Mitmo/Zbot) banking trojan core payloads"
+        description = "Production-grade detection rule for Zeus banking trojan core payloads"
         date = "2026-08-08"
-        version = "1.0"
+        version = "1.1"
         severity = "Critical"
         sharing = "TLP:CLEAR"
 
@@ -31,27 +31,43 @@ rule Zeus_Trojan_10_Layers {
         $uac_0 = "requireAdministrator" ascii wide nocase
         $uac_1 = "asInvoker" ascii wide nocase
 
-        $hex_rc4_zeus = { 8A [0-4] 02 [0-4] 8A [0-4] 88 [0-4] 88 [0-4] 03 [0-4] 81 [0-4] FF 00 00 00 }
+        $hex_rc4_zeus = {
+            8A [0-4] 02
+            [0-4] 8A [0-4] 88
+            [0-4] 88 [0-4] 03
+            [0-4] 81 [0-4] FF 00 00 00
+        }
 
     condition:
-        uint16(0) == 0x5A4D and
-        filesize > 20KB and
-        filesize < 5MB and
-        pe.is_dll() == false and
-        pe.characteristics & pe.IMAGE_FILE_EXECUTABLE_IMAGE and
-        pe.number_of_sections >= 3 and pe.number_of_sections <= 7 and
-        pe.number_of_signatures == 0 and
-        (
-            for any i in (0..pe.number_of_sections-1): (
-                (pe.sections[i].name matches /^\.?[Tt][Ee][Xx][Tt]$/ or pe.sections[i].name matches /^[Cc][Oo][Dd][Ee]$/) and
-                pe.sections[i].raw_data_size < 2MB and
-                math.entropy(pe.sections[i].raw_data_offset, pe.sections[i].raw_data_size) > 7.2
+        uint16(0) == 0x5A4D
+        and filesize > 20KB
+        and filesize < 5MB
+        and not pe.is_dll()
+        and pe.number_of_sections >= 3
+        and pe.number_of_sections <= 7
+        and pe.number_of_signatures == 0
+        and (
+            for any i in (0..pe.number_of_sections - 1) : (
+                (
+                    pe.sections[i].name matches /^\.?[Tt][Ee][Xx][Tt]$/
+                    or
+                    pe.sections[i].name matches /^[Cc][Oo][Dd][Ee]$/
+                )
+                and pe.sections[i].raw_data_size > 0
+                and pe.sections[i].raw_data_size < 2MB
+                and pe.sections[i].entropy > 7.2
             )
-        ) and
-        (pe.imports("kernel32.dll", "VirtualAlloc") or pe.imports("kernel32.dll", "CreateProcessA")) and
-        (
-            (all of ($cfg_*) and 2 of ($api_hook_*)) or
-            ($hex_rc4_zeus and 2 of ($api_inj_*) and 1 of ($api_crypto_*)) or
+        )
+        and (
+            pe.imports("kernel32.dll", "VirtualAlloc")
+            or
+            pe.imports("kernel32.dll", "CreateProcessA")
+        )
+        and (
+            (all of ($cfg_*) and 2 of ($api_hook_*))
+            or
+            ($hex_rc4_zeus and 2 of ($api_inj_*) and 1 of ($api_crypto_*))
+            or
             (2 of ($cfg_*) and 2 of ($api_crypto_*) and 1 of ($uac_*))
         )
 }
