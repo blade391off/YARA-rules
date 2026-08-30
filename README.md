@@ -15,8 +15,6 @@ The first YARA rule in this repository is [`Generic_Malware.yar`](https://github
 
 My name is **Timofiy**.
 
-I am **11** and I want to become a **malware analyst**.
-
 I am interested in malware analysis, cybersecurity and YARA rule development.
 
 I want to contribute to improving **cybersecurity in Ukraine** 🇺🇦.
