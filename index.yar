@@ -1,3 +1,5 @@
+include "./CVE/CVE_2026_41940.yar"
+
 include "./Generic/Generic_Malware.yar"
 
 include "./HackTools/Chisel_Ligolo.yar"
