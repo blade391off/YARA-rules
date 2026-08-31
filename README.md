@@ -70,7 +70,7 @@ The repository also includes automated validation through **GitHub Actions** to 
 
 ---
 
-## 📜 License
+##  License
 
 This project is distributed under the terms of the **MIT License**.
 
