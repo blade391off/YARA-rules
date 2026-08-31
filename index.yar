@@ -1,4 +1,4 @@
-include "./CVE/CVE_2026_41940.yar"
+include "./CVE/CVE-2026_41940.yar"
 
 include "./Generic/Generic_Malware.yar"
 
