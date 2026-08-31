@@ -10,7 +10,6 @@ rule APT28_XAgent_CHOPSTICK
         category = "apt"
         threat_actor = "APT28"
         malware_family = "CHOPSTICK"
-        confidence = "high"
 
     strings:
         $xagent = "X-Agent" ascii nocase
@@ -21,7 +20,6 @@ rule APT28_XAgent_CHOPSTICK
         $unique_tmp = "jhuhugit.tmp" ascii
         $twain = "twain_64.dll" ascii nocase
         $rundll32 = "rundll32.exe" ascii nocase
-        $delete = "cmd /c DEL " ascii nocase
         $registry = "CurrentVersion\\Run" ascii nocase
         $userinit = "UserInitMprLogonScript" ascii nocase
         $keylog = "keylog" ascii nocase
