@@ -1,4 +1,4 @@
-include "./ThreatActors/APT-29/X-Agent.yar"
+include "./ThreatActors/Russia/X-Agent.yar"
 
 include "./CVE/CVE-2026-41940.yar"
 include "./CVE/CVE-2026-82603.yar"
