@@ -12,8 +12,6 @@ rule Detect_govno_com
     strings:
         $domain = "govno.com" ascii wide nocase
         $domain_dot = "govno.com." ascii wide nocase
-        $url_http = "http://govno.com" ascii wide nocase
-        $url_https = "https://govno.com" ascii wide nocase
         $ip = "157.230.161.221" ascii wide
 
         $wscript = "wscript.exe" ascii wide nocase
@@ -42,23 +40,47 @@ rule Detect_govno_com
 
         $schtasks = "schtasks" ascii wide nocase
         $task_scheduler = "Task Scheduler" ascii wide nocase
-        $startup = "Startup" ascii wide nocase
-
-        $chrome = "chrome.exe" ascii wide nocase
-        $edge = "msedge.exe" ascii wide nocase
-        $firefox = "firefox.exe" ascii wide nocase
 
         $shutdown = "shutdown.exe" ascii wide nocase
 
     condition:
         uint16(0) == 0x5A4D and
         (
-            (1 of ($domain*) and 1 of ($ip))
+            (1 of ($domain, $domain_dot) and $ip)
             or
-            (1 of ($domain*) and 2 of ($wscript, $cscript, $cmd, $taskkill, $takeown, $icacls, $run, $runonce, $winlogon, $userinit, $defender, $windefend, $disable_defender, $vbs, $bat, $wscript_shell, $schtasks, $task_scheduler))
+            (
+                1 of ($domain, $domain_dot) and
+                2 of (
+                    $wscript,
+                    $cscript,
+                    $cmd,
+                    $taskkill,
+                    $takeown,
+                    $icacls,
+                    $run,
+                    $runonce,
+                    $winlogon,
+                    $userinit,
+                    $defender,
+                    $windefend,
+                    $disable_defender,
+                    $vbs,
+                    $bat,
+                    $wscript_shell,
+                    $schtasks,
+                    $task_scheduler
+                )
+            )
             or
-            (2 of ($taskkill, $takeown, $icacls) and 2 of ($defender, $windefend, $disable_defender, $security_health) and 1 of ($run, $runonce, $winlogon, $userinit, $schtasks, $task_scheduler))
+            (
+                2 of ($taskkill, $takeown, $icacls) and
+                2 of ($defender, $windefend, $disable_defender, $security_health) and
+                1 of ($run, $runonce, $winlogon, $userinit, $schtasks, $task_scheduler)
+            )
             or
-            (2 of ($wscript, $cscript, $vbs, $bat, $wscript_shell, $shell_application) and 2 of ($taskkill, $takeown, $icacls, $schtasks, $task_scheduler, $shutdown))
+            (
+                2 of ($wscript, $cscript, $vbs, $bat, $wscript_shell, $shell_application) and
+                2 of ($taskkill, $takeown, $icacls, $schtasks, $task_scheduler, $shutdown)
+            )
         )
 }
