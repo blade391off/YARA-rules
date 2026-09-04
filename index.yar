@@ -1,3 +1,5 @@
+include "./Lesser-Known Malware/Rina-Client.yar"
+
 include "./ThreatActors/Russia/X-Agent.yar"
 
 include "./CVE/CVE-2022-26134.yar"
