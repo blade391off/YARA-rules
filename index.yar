@@ -1,3 +1,5 @@
+include "./Malicious Infrastructure (MI)/govno-com.yar"
+
 include "./Lesser-Known Malware/Rina-Client.yar"
 
 include "./ThreatActors/Russia/MiniDuke.yar"
