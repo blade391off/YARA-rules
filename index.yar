@@ -1,5 +1,6 @@
 include "./ThreatActors/Russia/X-Agent.yar"
 
+include "./CVE/CVE-2022-26134.yar"
 include "./CVE/CVE-2026-50656.yar"
 include "./CVE/CVE-2026-41940.yar"
 include "./CVE/CVE-2026-82603.yar"
