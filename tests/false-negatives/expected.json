@@ -1,8 +1,5 @@
 {
-  "sample_wannacry.bin": [
-    "Detect_WannaCry"
-  ],
-  "sample_winlocker.bin": [
-    "Detect_WinLocker"
+  "mz_test.bin": [
+    "01Miner.yar"
   ]
 }
