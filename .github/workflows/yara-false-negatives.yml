@@ -47,7 +47,7 @@ jobs:
           with expected_file.open("r", encoding="utf-8") as f:
               tests = json.load(f)
 
-          # Ищем ТОЛЬКО YARA-файлы
+          
           rule_files = [
               p for p in Path(".").rglob("*")
               if p.is_file()
@@ -76,7 +76,7 @@ jobs:
                   failed += 1
                   continue
 
-              # Запускаем ВСЕ найденные .yar/.yara правила
+              
               command = [
                   "yara",
                   "-r",
