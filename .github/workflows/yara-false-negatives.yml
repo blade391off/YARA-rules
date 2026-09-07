@@ -1,0 +1,100 @@
+name: YARA False Negatives
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  false-negatives:
+    name: YARA False Negatives
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install YARA
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yara
+          yara --version
+
+      - name: Run false-negative tests
+        shell: bash
+        run: |
+          set -e
+
+          RULES_DIR="."
+          TEST_DIR="tests/false-negatives"
+          EXPECTED="$TEST_DIR/expected.json"
+
+          if [ ! -f "$EXPECTED" ]; then
+            echo "::error::expected.json not found"
+            exit 1
+          fi
+
+          python3 - <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          expected_file = Path("tests/false-negatives/expected.json")
+          samples_dir = Path("tests/false-negatives/samples")
+
+          with expected_file.open("r", encoding="utf-8") as f:
+              tests = json.load(f)
+
+          failed = 0
+          total = 0
+
+          for sample_name, expected_rules in tests.items():
+              sample = samples_dir / sample_name
+
+              if not sample.is_file():
+                  print(f"ERROR: sample not found: {sample}")
+                  failed += 1
+                  continue
+
+              for rule in expected_rules:
+                  total += 1
+
+                  result = subprocess.run(
+                      [
+                          "yara",
+                          "-r",
+                          "-w",
+                          "-C",
+                          ".",
+                          str(sample)
+                      ],
+                      capture_output=True,
+                      text=True
+                  )
+
+                  matches = result.stdout.splitlines()
+
+                  matched = any(
+                      line.split(maxsplit=1)[0] == rule
+                      for line in matches
+                      if line.strip()
+                  )
+
+                  if matched:
+                      print(f"PASS: {rule} -> {sample_name}")
+                  else:
+                      print(f"FAIL: {rule} -> {sample_name}")
+                      failed += 1
+
+          print()
+          print(f"Tests: {total}")
+          print(f"False negatives: {failed}")
+
+          if failed:
+              sys.exit(1)
+
+          print("No false negatives found.")
+          PY
