@@ -65,5 +65,6 @@ include "./Trojans/RAT/DarkComet.yar"
 include "./Trojans/RAT/NjRAT.yar"
 include "./Trojans/RAT/QuasarRAT.yar"
 
+include "./Winlock/Winlock_8_3.yar"
 include "./WinLock/NavalnyPass_2000.yar"
 include "./WinLock/Winlock_uxCryptor.yar"
