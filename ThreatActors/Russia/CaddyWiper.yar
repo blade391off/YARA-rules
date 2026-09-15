@@ -11,7 +11,6 @@ rule CaddyWiper
         threat_actor = "Sandworm"
 
     strings:
-        $hash_sha256 = "a294620543334a721a2ae8eaaf9680a0786f4b9a216d75b55cfd28f39e9430ea" ascii wide
         $api_domain = "DsRoleGetPrimaryDomainInformation" ascii wide
         $api_device = "DeviceIoControl" ascii wide
         $physical_drive = "\\\\.\\PHYSICALDRIVE" ascii wide
@@ -31,4 +30,3 @@ rule CaddyWiper
             2 of ($physical_drive, $users_path, $take_ownership, $drive_layout, $caddy_name)
         )
 }
-
