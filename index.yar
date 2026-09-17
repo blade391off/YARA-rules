@@ -1,3 +1,5 @@
+include "./Linux_Malware/RedXOR.yar"
+
 include "./Malicious Infrastructure (MI)/govno-com.yar"
 
 include "./Lesser-Known Malware/Rina-Client.yar"
