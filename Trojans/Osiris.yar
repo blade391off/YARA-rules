@@ -19,5 +19,7 @@ strings:
         $dropped_4 = "Osiris-MESSAGE.txt" ascii wide nocase
 
 condition:
-       pe.is_pe and filesize < 15 MB and 1 of ($domains_*) and 2 of ($dropped_*)
+       pe.is_pe and 
+       1 of ($domains_*) and 
+       2 of ($dropped_*)
 }
