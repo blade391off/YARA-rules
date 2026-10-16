@@ -6,6 +6,7 @@ include "./Lesser-Known Malware/Rina-Client.yar"
 
 include "./ThreatActors/Russia/MiniDuke.yar"
 include "./ThreatActors/Russia/X-Agent.yar"
+include "./ThreatActors/Russia/Critical_APT/PathWiper.yar"
 
 include "./CVE/CVE-2022-26134.yar"
 include "./CVE/CVE-2026-50656.yar"
