@@ -7,7 +7,7 @@ rule PathWiper
           description = "This rule detected the PathWiper malware in good confidence"
           license = "MIT"
           repo = "Ukrainian Yara Rules"
-          threat actor = "APT44"
+          threat_actor = "APT44"
 
 strings:
      $hex_1 = { c7 45 e0 eb cc b1 58 66 89 75 e4 e8 ?? ?? ?? ?? 8b 8d 52 eb ff ff 33 c8 66 89 4d e6 b9 8f bc 00 00 }
