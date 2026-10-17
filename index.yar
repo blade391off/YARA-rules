@@ -56,6 +56,7 @@ include "./Stealers/RedLine/RedLine_Deep_Analysis.yar"
 include "./Stealers/RedLine/RedLine_Production.yar"
 include "./Stealers/RedLine/RedLine_Triage.yar"
 
+include "./Trojans/Osiris.yar"
 include "./Trojans/Agent_Tesla.yar"
 include "./Trojans/Default_Trojan.yar"
 include "./Trojans/Emotet.yar"
