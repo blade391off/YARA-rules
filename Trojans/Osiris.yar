@@ -19,7 +19,7 @@ strings:
         $dropped_4 = "Osiris-MESSAGE.txt" ascii wide nocase
 
 condition:
-       pe.is_pe and 
+       pe.is_pe and // update 16.10.2026 remove 15 mb check
        1 of ($domains_*) and 
        2 of ($dropped_*)
 }
