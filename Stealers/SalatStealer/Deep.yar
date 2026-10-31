@@ -41,7 +41,7 @@ strings:
 condition: 
          pe.is_pe and
          3 of ($u_*) and
-         3 of ($d_*)
+         3 of ($d_*) and 
          1 of ($ip_*)  
 }
 
