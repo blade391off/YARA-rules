@@ -21,8 +21,8 @@ $ip_1 = "172.67.194.254"
 $ip_2 = "104.21.60.88"
 
 
-$host_1 =  "attrib +h +s %TMP%\svchost.exe"
-$host_2 = "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v WindowsUpdateService /t REG_SZ /d %TMP%\svchost.exe /f"
+$host_1 = "/attrib \+h \+s %TMP%\\svchost\.exe/"
+$host_2 = "/reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run \/v WindowsUpdateService \/t REG_SZ \/d %TMP%\\svchost\.exe \/f/"
 
 condition:
 
