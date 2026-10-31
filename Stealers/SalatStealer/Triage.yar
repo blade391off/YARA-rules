@@ -20,14 +20,9 @@ $mal_5 = "https://wrat.in:992/sa1at/" ascii wide
 $ip_1 = "172.67.194.254"
 $ip_2 = "104.21.60.88"
 
-
-$host_1 = "/attrib \+h \+s %TMP%\\svchost\.exe/"
-$host_2 = "/reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run \/v WindowsUpdateService \/t REG_SZ \/d %TMP%\\svchost\.exe \/f/"
-
 condition:
 
         pe.is_pe and 
         2 of ($mal_*) and 
-        2 of ($host_*) and
         1 of ($ip_*)
 }
