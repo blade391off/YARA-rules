@@ -42,6 +42,6 @@ condition:
          pe.is_pe and
          3 of ($u_*) and
          3 of ($d_*)
-         1 of ($ip_*) 
+         1 of ($ip_*)  
 }
 
