@@ -1,7 +1,7 @@
 import "pe"
 
 rule SalatStealer
-
+{
         meta: 
            author = "blade391off"
            description = "Detect SalatStealer"
