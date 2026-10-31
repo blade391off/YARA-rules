@@ -11,9 +11,9 @@ rule SalatStealer
 
 strings:
         
-        $u1 = "/sa1at/" ascii wide nocase
-        $u2 = "/client/addclient" ascii wide nocase
-        $u3 = "/alive.php" ascii wide nocase
+        $u_1 = "/sa1at/" ascii wide nocase
+        $u_2 = "/client/addclient" ascii wide nocase
+        $u_3 = "/alive.php" ascii wide nocase
 
         
         $d_1 = "salat.cn" ascii wide
