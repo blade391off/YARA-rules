@@ -47,16 +47,12 @@ include "./Ransomware/Petya/Triage.yar"
 include "./Stealers/Lumma/Deep.yar"
 include "./Stealers/Lumma/Production.yar"
 include "./Stealers/Lumma/Triage.yar"
-
 include "./Stealers/Racoon/Deep.yar"
 include "./Stealers/Racoon/Production.yar"
 include "./Stealers/Racoon/Triage.yar"
-
 include "./Stealers/SalatStealer/Triage.yar"
 include "./Stealer/SalatStealer/Deep.yar"
 include "./Stealer/SalatStealer/Production.yar"
-
-
 include "./Stealers/RedLine/RedLine_Deep_Analysis.yar"
 include "./Stealers/RedLine/RedLine_Production.yar"
 include "./Stealers/RedLine/RedLine_Triage.yar"
