@@ -1,6 +1,6 @@
 <img width="100%" alt="Cherry Blossom Pink GIF" src="https://github.com/user-attachments/assets/a9028254-fbc2-450c-b4a3-453a9633de91" />
 
-# 🦠 YARA RULES
+#  YARA RULES
 
 This repository is created for **YARA rules** and for improving cybersecurity.
 
@@ -23,7 +23,7 @@ I also have an account on [DOU](https://dou.ua/users/blade391off/).
 
 ---
 
-## ⚠️ WARNING
+##  WARNING
 
 This repository **will not contain malware samples or other executable files**.
 
@@ -39,7 +39,7 @@ In the future, I may add Python code that combines or processes the YARA rules.
 
 ---
 
-## 🔬 YARA Version
+## YARA Version
 
 The rules are developed and validated using:
 
