@@ -39,27 +39,6 @@ In the future, I may add Python code that combines or processes the YARA rules.
 
 ---
 
-##  Repository Structure
-```text
-YARA-rules/                             # Project root
-├── AUTHOR_CONTACT.md                   # Repository author's contact information
-├── LICENSE                             # Repository license
-├── README.md                           # Main project documentation
-├── CVE/                                # CVE vulnerability detection rules
-├── Generic/                            # Generic detection rules
-├── HackTools/                          # Pentesting and security tools
-├── Loader/                             # Loaders and droppers
-├── MacOS_Malware/                      # macOS malware
-├── Other/                              # Other threat categories
-├── Phishing/                           # Phishing-related rules
-├── Potentially Unwanted/               # Potentially unwanted software (PUP)
-├── Ransomware/                         # Ransomware detection rules
-├── Stealers/                           # Information stealers
-├── Trojans/                            # Trojans and RATs
-└── WinLock/                            # Screen lockers
-```
----
-
 ## 🔬 YARA Version
 
 The rules are developed and validated using:
