@@ -25,8 +25,4 @@ pe.is_pe and
 (2 of ($header_*)) and 
 (4 of ($txt_*)) and 
 (1 of ($contact_*) 
-or
-(2 of ($contact_*) and
-(2 of ($header_*) and
-(2 of ($txt_*))
-}
+
